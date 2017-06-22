@@ -26,18 +26,17 @@ namespace PurinaQnA.Dialogs
         {
             var message = context.MakeMessage();
             //message.Text = $"I found an answer that might help...{result.Answer}.";
-            message.Text = "did you mean...";
-            message.TextFormat = TextFormatTypes.Plain;
-            message.SuggestedActions = new SuggestedActions()
-            {
-                Actions = new List<CardAction>
-                {
-                    new CardAction{ Title = "TopQ", Type=ActionTypes.ImBack, Value="TopQText" },
-                    new CardAction{ Title = "Advisor", Type=ActionTypes.ImBack, Value="AdvisorText" },
-                    new CardAction{ Title = "Reading", Type=ActionTypes.ImBack, Value="ReadingText" },
-                    new CardAction{ Title = result.Answer.Substring(0, 20) , Type=ActionTypes.ImBack, Value= result.Answer.Substring(0, 20) }
-                }
-            };
+            message.AddKeyboardCard("did you mean...", new List<string> { string.Format("{0}... {1}...", result.Answer.Substring(0, 50), originalQueryText) });
+            //message.Text = "did you mean...";
+            //message.TextFormat = TextFormatTypes.Plain;
+            //message.SuggestedActions = new SuggestedActions()
+            //{
+            //    Actions = new List<CardAction>
+            //    {
+            //        new CardAction{ Title = "did you mean..." , Type = ActionTypes., Value= result.Answer.Substring(0, 20) },
+            //        new CardAction{ Title = result.Answer.Substring(0, 20) , Type=ActionTypes.ImBack, Value= result.Answer.Substring(0, 20) }
+            //    }
+            //};
             await context.PostAsync(message);
 
             context.Wait(MessageReceived);
