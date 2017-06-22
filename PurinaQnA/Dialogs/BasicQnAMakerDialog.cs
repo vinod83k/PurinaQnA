@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs;
 //using Microsoft.Bot.Builder.CognitiveServices.QnAMaker;
 using QnAMakerDialog;
 using System.Threading.Tasks;
+using Microsoft.Bot.Connector;
 
 namespace PurinaQnA.Dialogs
 {
@@ -23,18 +24,36 @@ namespace PurinaQnA.Dialogs
         [QnAMakerResponseHandler(50)]
         public async Task LowScoreHandler(IDialogContext context, string originalQueryText, QnAMakerResult result)
         {
-            await context.PostAsync($"I found an answer that might help...{result.Answer}.");
+            var message = context.MakeMessage();
+            //message.Text = $"I found an answer that might help...{result.Answer}.";
+            message.Text = "did you mean...";
+            message.TextFormat = TextFormatTypes.Plain;
+            message.SuggestedActions = new SuggestedActions()
+            {
+                Actions = new List<CardAction>
+                {
+                    new CardAction{ Title = "TopQ", Type=ActionTypes.ImBack, Value="TopQText" },
+                    new CardAction{ Title = "Advisor", Type=ActionTypes.ImBack, Value="AdvisorText" },
+                    new CardAction{ Title = "Reading", Type=ActionTypes.ImBack, Value="ReadingText" },
+                    new CardAction{ Title = result.Answer.Substring(0, 20) , Type=ActionTypes.ImBack, Value= result.Answer.Substring(0, 20) }
+                }
+            };
+            await context.PostAsync(message);
+
             context.Wait(MessageReceived);
+
+            //await context.PostAsync($"I found an answer that might help...{result.Answer}.");
+            //context.Wait(MessageReceived);
         }
 
-        public override async Task DefaultMatchHandler(IDialogContext context, string originalQueryText, QnAMakerResult result)
-        {
-            var messageActivity = ProcessResultAndCreateMessageActivity(context, ref result);
-            messageActivity.Text = $"I found an answer that might help...{result.Answer}.";
+        //public override async Task DefaultMatchHandler(IDialogContext context, string originalQueryText, QnAMakerResult result)
+        //{
+        //    //var messageActivity = ProcessResultAndCreateMessageActivity(context, ref result);
+        //    //messageActivity.Text = $"I found an answer that might help...{result.Answer}.";
 
-            await context.PostAsync(messageActivity);
+        //    //await context.PostAsync(messageActivity);
 
-            context.Wait(MessageReceived);
-        }
+        //    //context.Wait(MessageReceived);
+        //}
     }
 }
