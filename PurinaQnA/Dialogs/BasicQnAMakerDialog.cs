@@ -26,5 +26,15 @@ namespace PurinaQnA.Dialogs
             await context.PostAsync($"I found an answer that might help...{result.Answer}.");
             context.Wait(MessageReceived);
         }
+
+        public override async Task DefaultMatchHandler(IDialogContext context, string originalQueryText, QnAMakerResult result)
+        {
+            var messageActivity = ProcessResultAndCreateMessageActivity(context, ref result);
+            messageActivity.Text = $"I found an answer that might help...{result.Answer}.";
+
+            await context.PostAsync(messageActivity);
+
+            context.Wait(MessageReceived);
+        }
     }
 }
