@@ -24,16 +24,28 @@ namespace PurinaQnA.Dialogs
         [QnAMakerResponseHandler(50)]
         public async Task LowScoreHandler(IDialogContext context, string originalQueryText, QnAMakerResult result)
         {
+
+
+
+
             var message = context.MakeMessage();
             //message.Text = $"I found an answer that might help...{result.Answer}.";
-            message.AddKeyboardCard("did you mean...", new List<string> { string.Format("{0}... {1}...", result.Answer.Substring(0, 50), originalQueryText) });
+            //message.AddKeyboardCard("did you mean...", new List<string> { string.Format("{0}... {1}...", result.Answer.Substring(0, 50), originalQueryText) });
+            //message.AddKeyboardCard<CardAction>("did you mean...", new List<CardAction> { new CardAction { Title = "did you mean...", Type = ActionTypes.ImBack, Value = result.Answer.Substring(0, 20) } });
             //message.Text = "did you mean...";
-            //message.TextFormat = TextFormatTypes.Plain;
+            message.TextFormat = TextFormatTypes.Plain;
+            message.Attachments.Add(new HeroCard {
+                Title = "did you mean...",
+                Buttons = new List<CardAction>
+                {
+                    new CardAction{ Title = result.Answer.Substring(0, 20) , Type=ActionTypes.ImBack, Value= result.Answer.Substring(0, 20) }
+                }
+            }.ToAttachment());
             //message.SuggestedActions = new SuggestedActions()
             //{
             //    Actions = new List<CardAction>
             //    {
-            //        new CardAction{ Title = "did you mean..." , Type = ActionTypes., Value= result.Answer.Substring(0, 20) },
+            //        new CardAction{ Title = "did you mean..." , Type = ActionTypes.ImBack, Value= result.Answer.Substring(0, 20) },
             //        new CardAction{ Title = result.Answer.Substring(0, 20) , Type=ActionTypes.ImBack, Value= result.Answer.Substring(0, 20) }
             //    }
             //};
