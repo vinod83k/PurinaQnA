@@ -22,7 +22,7 @@ namespace PurinaQnA
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.BasicQnAMakerDialog());
             }
-            else if (activity.Type == ActivityTypes.ConversationUpdate)
+            else if (activity.Type == ActivityTypes.ContactRelationUpdate)
             {
                 var reply = activity.CreateReply("WELCOME!!!");
                 ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
