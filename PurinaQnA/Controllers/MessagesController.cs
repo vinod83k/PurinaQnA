@@ -23,12 +23,27 @@ namespace PurinaQnA
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.BasicQnAMakerDialog());
             }
-            //else if (activity.Type == ActivityTypes.ContactRelationUpdate)
-            //{
-            //    var reply = activity.CreateReply("WELCOME!!!");
-            //    ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-            //    await connector.Conversations.ReplyToActivityAsync(reply);
-            //}
+            else if (activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                //var reply = activity.CreateReply("WELCOME!!!");
+                //ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+                //await connector.Conversations.ReplyToActivityAsync(reply);
+
+                IConversationUpdateActivity update = activity;
+                var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
+                if (update.MembersAdded != null && update.MembersAdded.Any())
+                {
+                    foreach (var newMember in update.MembersAdded)
+                    {
+                        if (newMember.Id != activity.Recipient.Id)
+                        {
+                            var reply = activity.CreateReply();
+                            reply.Text = $"Welcome {newMember.Name}!";
+                            await client.Conversations.ReplyToActivityAsync(reply);
+                        }
+                    }
+                }
+            }
             else
             {
                 
@@ -52,20 +67,20 @@ namespace PurinaQnA
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
 
-                IConversationUpdateActivity update = message;
-                var client = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
-                if (update.MembersAdded != null && update.MembersAdded.Any())
-                {
-                    foreach (var newMember in update.MembersAdded)
-                    {
-                        if (newMember.Id != message.Recipient.Id)
-                        {
-                            var reply = message.CreateReply();
-                            reply.Text = $"Welcome {newMember.Name}!";
-                            client.Conversations.ReplyToActivityAsync(reply);
-                        }
-                    }
-                }
+                //IConversationUpdateActivity update = message;
+                //var client = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
+                //if (update.MembersAdded != null && update.MembersAdded.Any())
+                //{
+                //    foreach (var newMember in update.MembersAdded)
+                //    {
+                //        if (newMember.Id != message.Recipient.Id)
+                //        {
+                //            var reply = message.CreateReply();
+                //            reply.Text = $"Welcome {newMember.Name}!";
+                //            client.Conversations.ReplyToActivityAsync(reply);
+                //        }
+                //    }
+                //}
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
