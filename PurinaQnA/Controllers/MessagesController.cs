@@ -5,6 +5,7 @@ using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System.Collections.Generic;
+using System;
 
 namespace PurinaQnA
 {
@@ -21,8 +22,15 @@ namespace PurinaQnA
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.BasicQnAMakerDialog());
             }
+            else if (activity.Type == ActivityTypes.ConversationUpdate)
+            {
+                var reply = activity.CreateReply("WELCOME!!!");
+                ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+                await connector.Conversations.ReplyToActivityAsync(reply);
+            }
             else
             {
+                
                 HandleSystemMessage(activity);
             }
 
@@ -38,7 +46,8 @@ namespace PurinaQnA
                 // If we handle user deletion, return a real message
             }
             else if (message.Type == ActivityTypes.ConversationUpdate)
-            {
+            {              
+
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
