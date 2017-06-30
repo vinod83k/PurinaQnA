@@ -46,7 +46,14 @@ namespace PurinaQnA
             //}
             else
             {
-                
+                if (activity.MembersAdded.Any(x => x.Id == activity.Recipient.Id)) {
+                    IConversationUpdateActivity update = activity;
+                    var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
+                    var reply = activity.CreateReply();
+                    reply.Text = $"Welcome! Please enter your question...";
+                    await client.Conversations.ReplyToActivityAsync(reply);
+
+                }
                 HandleSystemMessage(activity);
             }
 
