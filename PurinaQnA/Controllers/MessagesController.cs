@@ -50,7 +50,7 @@ namespace PurinaQnA
                     IConversationUpdateActivity update = activity;
                     var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
                     var reply = activity.CreateReply();
-                    reply.Text = $"Welcome! Please enter your question...";
+                    reply.Text = $"Welcome! I am a ChatBot for Purina FAQ. \n\n Please enter your question...";
                     await client.Conversations.ReplyToActivityAsync(reply);
 
                 }
