@@ -7,6 +7,8 @@ using Microsoft.Bot.Connector;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using PurinaQnA.Enumerations;
+using PurinaQnA.Utils;
 
 namespace PurinaQnA
 {
@@ -21,38 +23,42 @@ namespace PurinaQnA
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.BasicQnAMakerDialog());
+                //var queryText = activity.AsMessageActivity().Text;
+                //var categoryFound = Enumeration.GetAll<Categories>().FirstOrDefault(x => x.DisplayName == queryText);
+                //if (categoryFound != null && !string.IsNullOrEmpty(categoryFound.FeedUrl))
+                //{
+                //    await Conversation.SendAsync(activity, () => new Dialogs.InitialDialog());
+                //}
+                //else
+                //{
+                //    await Conversation.SendAsync(activity, () => new Dialogs.BasicQnAMakerDialog());
+                //}
+                await Conversation.SendAsync(activity, () => new Dialogs.InitialDialog());
             }
-            //else if (activity.Type == ActivityTypes.ConversationUpdate)
-            //{
-            //    //var reply = activity.CreateReply("WELCOME!!!");
-            //    //ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-            //    //await connector.Conversations.ReplyToActivityAsync(reply);
-
-            //    IConversationUpdateActivity update = activity;
-            //    var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
-            //    if (update.MembersAdded != null && update.MembersAdded.Any())
-            //    {
-            //        foreach (var newMember in update.MembersAdded)
-            //        {
-            //            if (newMember.Id != activity.Recipient.Id)
-            //            {
-            //                var reply = activity.CreateReply();
-            //                reply.Text = $"Welcome! Please enter your question...";
-            //                await client.Conversations.ReplyToActivityAsync(reply);
-            //            }
-            //        }
-            //    }
-            //}
             else
             {
-                if (activity.MembersAdded.Any(x => x.Id == activity.Recipient.Id)) {
+                if (activity.MembersAdded.Any(x => x.Id == activity.Recipient.Id))
+                {
                     IConversationUpdateActivity update = activity;
                     var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
                     var reply = activity.CreateReply();
-                    reply.Text = $"Welcome! I am a ChatBot for Purina FAQ. \n\n Please enter your question...";
-                    await client.Conversations.ReplyToActivityAsync(reply);
+                    reply.Text = $"Welcome! I am a ChatBot for Purina FAQ. \n\n Looking what's best for your Animals. \n\n Browse topics by...";
+                    var cardActions = new List<CardAction>();
+                    foreach (var category in Enumeration.GetAll<Categories>().Where(x => x.DisplayName != Categories.All.DisplayName))
+                    {
+                        cardActions.Add(new CardAction
+                        {
+                            Title = category.DisplayName,
+                            Type = ActionTypes.ImBack,
+                            Value = category.DisplayName
+                        });
+                    }
 
+                    reply.Attachments.Add(new ThumbnailCard {
+                        Buttons = cardActions,
+                    }.ToAttachment());
+                    
+                    await client.Conversations.ReplyToActivityAsync(reply);
                 }
                 HandleSystemMessage(activity);
             }
@@ -73,21 +79,6 @@ namespace PurinaQnA
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
-
-                //IConversationUpdateActivity update = message;
-                //var client = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
-                //if (update.MembersAdded != null && update.MembersAdded.Any())
-                //{
-                //    foreach (var newMember in update.MembersAdded)
-                //    {
-                //        if (newMember.Id != message.Recipient.Id)
-                //        {
-                //            var reply = message.CreateReply();
-                //            reply.Text = $"Welcome {newMember.Name}!";
-                //            client.Conversations.ReplyToActivityAsync(reply);
-                //        }
-                //    }
-                //}
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
@@ -97,6 +88,10 @@ namespace PurinaQnA
             else if (message.Type == ActivityTypes.Typing)
             {
                 // Handle knowing tha the user is typing
+                var client = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
+                var reply = message.CreateReply();
+                reply.Text = $"User typing...";
+                client.Conversations.ReplyToActivityAsync(reply);
             }
             else if (message.Type == ActivityTypes.Ping)
             {
