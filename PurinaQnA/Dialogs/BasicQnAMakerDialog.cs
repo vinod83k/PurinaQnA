@@ -12,81 +12,15 @@ namespace PurinaQnA.Dialogs
     [QnAMakerService("7ece4e3bc1aa4779b72f5fc244696112", "9ab9029c-7b97-4271-bd2c-4dab8c90eacd")]
     public class BasicQnAMakerDialog : QnAMakerDialog<object>
     {
-        public override async Task StartAsync(IDialogContext context)
-        {
-            await base.StartAsync(context);
-        }
-
-        private async Task AfterCommonResponseHandled(IDialogContext context, IAwaitable<bool> result)
-        {
-            var messageHandled = await result;
-
-            if (!messageHandled)
-            {
-                var messageActivity = context.MakeMessage();
-                messageActivity.Attachments = new List<Attachment>();
-                AdaptiveCard card = new AdaptiveCard();
-
-                card.Body.Add(new TextBlock()
-                {
-                    Text = $"Sorry, I couldn't find an answer for ",
-                    Size = TextSize.Medium,
-                    Weight = TextWeight.Normal,
-                    Wrap = true
-                });
-
-                card.Body.Add(new TextBlock()
-                {
-                    Text = context.Activity.AsMessageActivity().Text,
-                    Size = TextSize.Medium,
-                    Weight = TextWeight.Bolder,
-                    Wrap = true
-                });
-
-                card.Body.Add(new TextBlock()
-                {
-                    Text = "You can always contact us using below link for more information: ",
-                    Wrap = true
-                });
-
-                // Add buttons to the card.
-                card.Actions.Add(new OpenUrlAction()
-                {
-                    Url = "http://tst2.purinamills.com/animal-nutrition-information",
-                    Title = "Purina's animals Nutrition Information",
-                });
-
-                Attachment attachment = new Attachment()
-                {
-                    ContentType = AdaptiveCard.ContentType,
-                    Content = card
-                };
-
-                messageActivity.Attachments.Add(attachment);
-
-                await context.PostAsync(messageActivity);
-                //context.Wait(MessageReceived);
-            }
-
-            context.Wait(MessageReceived);
-        }
-
-        public virtual async Task MessageRecievedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {
-            var option = await result;
-            //context.Call(new BasicQnAMakerDialog(), ResumeAfterOptionDialog);
-            context.Wait(MessageReceived);
-        }
-
-        private async Task ResumeAfterOptionDialog(IDialogContext context, IAwaitable<object> result)
-        {
-            context.Wait(MessageReceived);
-        }
-
         public override async Task NoMatchHandler(IDialogContext context, string originalQueryText)
         {
-            await context.Forward(new CommonResponsesDialog(), AfterCommonResponseHandled, context.Activity.AsMessageActivity());
-            //context.Wait(MessageReceived);
+            if (originalQueryText.ToLower().Contains("faq") || originalQueryText.ToLower().Contains("question")) {
+                context.Wait(MessageReceived);
+            }
+            else
+            {
+                context.Done("NoMatch");
+            }
         }
 
         [QnAMakerResponseHandler(50)]
@@ -101,7 +35,8 @@ namespace PurinaQnA.Dialogs
             {
                 Text = "I found an answer that might help...",
                 Size = TextSize.Large,
-                Weight = TextWeight.Bolder
+                Weight = TextWeight.Normal,
+                Wrap = true
             });
 
             card.Body.Add(new TextBlock()
@@ -114,7 +49,7 @@ namespace PurinaQnA.Dialogs
             {
                 Text = "If you are looking for something else, you can always navigate to the following link:",
                 Size = TextSize.Large,
-                Weight = TextWeight.Bolder,
+                Weight = TextWeight.Normal,
                 Wrap = true
             });
 
@@ -143,14 +78,6 @@ namespace PurinaQnA.Dialogs
             messageActivity.Attachments = new List<Attachment>();
             AdaptiveCard card = new AdaptiveCard();
 
-            // Add text to the card.
-            card.Body.Add(new TextBlock()
-            {
-                Text = "I found an answer that might help...",
-                Size = TextSize.Large,
-                Weight = TextWeight.Bolder
-            });
-
             card.Body.Add(new TextBlock()
             {
                 Text = result.Answer,
@@ -159,9 +86,10 @@ namespace PurinaQnA.Dialogs
 
             card.Body.Add(new TextBlock()
             {
-                Text = "You can find more information below...",
-                Size = TextSize.Large,
-                Weight = TextWeight.Bolder
+                Text = "You can always find more information at below link...",
+                Size = TextSize.Medium,
+                Weight = TextWeight.Normal,
+                Wrap = true
             });
 
             // Add buttons to the card.
@@ -183,5 +111,12 @@ namespace PurinaQnA.Dialogs
             context.Wait(MessageReceived);
 
         }
+
+        private async Task ResumeAfterOptionDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            //context.Wait(MessageReceived);
+        }
+
+
     }
 }

@@ -170,15 +170,25 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\BasicQnAMakerDialog.cs" />
+    <Compile Include="Dialogs\CancelScorable.cs" />
+    <Compile Include="Dialogs\OptionsScorable.cs" />
+    <Compile Include="Dialogs\CommonResponseScorable.cs" />
     <Compile Include="Dialogs\CommonResponsesDialog.cs" />
-    <Compile Include="Dialogs\InitialDialog.cs" />
-    <Compile Include="Dialogs\PromptButtonsDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
+    <Compile Include="Dialogs\PromptButtonsDialog.cs" />
+    <Compile Include="Dialogs\RetailerFinder.cs" />
+    <Compile Include="Dialogs\RetailerFinderDialog.cs" />
+    <Compile Include="Dialogs\MessageUtility.cs" />
     <Compile Include="Enumerations\Categories.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalMessageHandlersBotModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Dialogs\CancelDialog.cs" />
+    <Compile Include="PurinaDialogs\RootDialog.cs" />
+    <Compile Include="PurinaDialogs\SimpleMessageDialog.cs" />
+    <Compile Include="Utils\CommonResponseKeywords.cs" />
     <Compile Include="Utils\Enumeration.cs" />
   </ItemGroup>
   <ItemGroup>

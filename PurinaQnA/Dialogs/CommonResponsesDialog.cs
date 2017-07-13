@@ -8,22 +8,45 @@ using System.Threading.Tasks;
 
 namespace PurinaQnA.Dialogs
 {
-    [Serializable]
-    public class CommonResponsesDialog : BestMatchDialog<bool>
+    public class CommonResponseResult
     {
+        public bool IsMessageHandled { get; set; }
+        public string Message { get; set; }
+    }
+
+    [Serializable]
+    public class CommonResponsesDialog : BestMatchDialog<CommonResponseResult>
+    {
+        BasicQnAMakerDialog qnaMakerDialog;
+        public CommonResponsesDialog() {
+            qnaMakerDialog = new BasicQnAMakerDialog();
+        }
+
+        public override async Task StartAsync(IDialogContext context)
+        {
+            context.Wait(this.MessageReceived);
+        }
+
         [BestMatch(new string[] { "Hi", "Hi There", "Hello there", "Hey", "Hello",
             "Hey there", "Greetings", "Good morning", "Good afternoon", "Good evening", "Good day" },
             threshold: 0.5, ignoreCase: true, ignoreNonAlphaNumericCharacters: false)]
         public async Task HandleGreeting(IDialogContext context, string messageText)
         {
-            await context.PostAsync("Well hello there. What can I do for you today?");
+            await context.PostAsync(MessageUtility.GetWelcomeOptionsMessage((Activity)context.Activity, "Well hello there. What can I do for you today? Please click on below options"));
             context.Wait(MessageReceived);
         }
 
         [BestMatch("bye|bye bye|got to go|see you later|laters|adios", listDelimiter: '|')]
         public async Task HandleGoodbye(IDialogContext context, string messageText)
         {
-            await context.PostAsync("Bye. Looking forward to our next awesome conversation already.");
+            await context.PostAsync(MessageUtility.GetSimpleTextMessage(context.MakeMessage(), "Bye. Looking forward to our next awesome conversation already."));
+            context.Wait(MessageReceived);
+        }
+
+        [BestMatch("thanks", listDelimiter: '|')]
+        public async Task HandleThanks(IDialogContext context, string messageText)
+        {
+            await context.PostAsync(MessageUtility.GetThanksMessage(context.MakeMessage(), ""));
             context.Wait(MessageReceived);
         }
 
@@ -38,7 +61,7 @@ namespace PurinaQnA.Dialogs
             {
                 Text = "If you are looking for something else, you can always navigate to the following link:",
                 Size = TextSize.Large,
-                Weight = TextWeight.Bolder,
+                Weight = TextWeight.Normal,
                 Wrap = true
             });
 
@@ -58,6 +81,7 @@ namespace PurinaQnA.Dialogs
             messageActivity.Attachments.Add(attachment);
 
             await context.PostAsync(messageActivity);
+            await context.PostAsync(MessageUtility.GetWelcomeOptionsMessage((Activity)messageActivity, "Or you can always search for FAQ's by selecting FAQ"));
             context.Wait(MessageReceived);
         }
 
