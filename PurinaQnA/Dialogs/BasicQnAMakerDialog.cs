@@ -27,6 +27,7 @@ namespace PurinaQnA.Dialogs
         public async Task LowScoreHandler(IDialogContext context, string originalQueryText, QnAMakerResult result)
         {
             var messageActivity = ProcessResultAndCreateMessageActivity(context, ref result);
+            messageActivity.From.Name = "Bot";
             messageActivity.Attachments = new List<Attachment>();
             AdaptiveCard card = new AdaptiveCard();
 
@@ -75,6 +76,7 @@ namespace PurinaQnA.Dialogs
         public override async Task DefaultMatchHandler(IDialogContext context, string originalQueryText, QnAMakerResult result)
         {
             var messageActivity = ProcessResultAndCreateMessageActivity(context, ref result);
+            messageActivity.From.Name = "Bot";
             messageActivity.Attachments = new List<Attachment>();
             AdaptiveCard card = new AdaptiveCard();
 

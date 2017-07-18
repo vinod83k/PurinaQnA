@@ -35,6 +35,7 @@ namespace PurinaQnA
                 {
                     case ActivityTypes.Message:
                         await Conversation.SendAsync(activity, () => new PurinaDialogs.RootDialog());
+                        //await Conversation.SendAsync(activity, () => new Dialog.RootDialog());
                         break;
 
                     case ActivityTypes.ConversationUpdate:

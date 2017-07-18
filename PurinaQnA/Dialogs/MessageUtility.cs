@@ -9,6 +9,8 @@ namespace PurinaQnA.Dialogs
         public static Activity GetWelcomeOptionsMessage(Activity activity, string textMsg)
         {
             var reply = activity.CreateReply();
+            reply.From.Name = "Bot";
+            var replyProp = reply.From.Properties;
             reply.Attachments = new List<Attachment>();
 
             ThumbnailCard plCard = new ThumbnailCard();
@@ -30,7 +32,7 @@ namespace PurinaQnA.Dialogs
         {
             //var reply = activity.CreateReply();
             messageActivity.Attachments = new List<Attachment>();
-
+            messageActivity.From.Name = "Bot";
             ThumbnailCard plCard = new ThumbnailCard();
             List<CardAction> cardButtons = new List<CardAction>();
 
@@ -49,9 +51,9 @@ namespace PurinaQnA.Dialogs
         public static IMessageActivity GetSimpleTextMessage(IMessageActivity messageActivity, string textMsg)
         {
             messageActivity.Attachments = new List<Attachment>();
-
+            messageActivity.From.Name = "Bot";
             AdaptiveCard card = new AdaptiveCard();
-
+            
             card.Body.Add(new TextBlock()
             {
                 Text = textMsg,
@@ -74,7 +76,7 @@ namespace PurinaQnA.Dialogs
         public static IMessageActivity GetThanksMessage(IMessageActivity messageActivity, string textMsg)
         {
             messageActivity.Attachments = new List<Attachment>();
-
+            messageActivity.From.Name = "Bot";
             AdaptiveCard card = new AdaptiveCard();
 
             card.Body.Add(new TextBlock()
@@ -105,8 +107,9 @@ namespace PurinaQnA.Dialogs
 
         public static IMessageActivity GetCustomerCareMessage(IMessageActivity messageActivity)
         {
+            
             messageActivity.Attachments = new List<Attachment>();
-
+            messageActivity.From.Name = "Bot";
             AdaptiveCard card = new AdaptiveCard();
 
             card.Body.Add(new TextBlock()
