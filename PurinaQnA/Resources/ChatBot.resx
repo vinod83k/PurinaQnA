@@ -120,4 +120,16 @@
   <data name="BotName" xml:space="preserve">
     <value>Loren</value>
   </data>
+  <data name="GreetingsMessage" xml:space="preserve">
+    <value>Hello, how can i help you today?</value>
+  </data>
+  <data name="TitleFaq" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
+  <data name="TitleRetailerFinder" xml:space="preserve">
+    <value>Retailer Finder</value>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>Hi! My name is Loren and I'm a Chatbot. I can help you with Animal's nurition related queries and locate products Retailer. Please select a quick link below or type your question in the space provided.</value>
+  </data>
 </root>

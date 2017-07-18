@@ -32,7 +32,7 @@ namespace PurinaQnA.Dialogs
             threshold: 0.5, ignoreCase: true, ignoreNonAlphaNumericCharacters: false)]
         public async Task HandleGreeting(IDialogContext context, string messageText)
         {
-            await context.PostAsync(MessageUtility.GetWelcomeOptionsMessage((Activity)context.Activity, "Well hello there. What can I do for you today? Please click on below options"));
+            await context.PostAsync(MessageUtility.GetWelcomeOptionsMessage((Activity)context.Activity, Resources.ChatBot.GreetingsMessage));
             context.Wait(MessageReceived);
         }
 

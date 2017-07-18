@@ -36,8 +36,8 @@ namespace PurinaQnA.Dialogs
             ThumbnailCard plCard = new ThumbnailCard();
             List<CardAction> cardButtons = new List<CardAction>();
 
-            cardButtons.Add(new CardAction { Title = "FAQ", Type = ActionTypes.ImBack, Value = "FAQ" });
-            cardButtons.Add(new CardAction { Title = "Retailer Finder", Type = ActionTypes.ImBack, Value = "Retailer Finder" });
+            cardButtons.Add(new CardAction { Title = Resources.ChatBot.TitleFaq, Type = ActionTypes.ImBack, Value = Resources.ChatBot.TitleFaq });
+            cardButtons.Add(new CardAction { Title = Resources.ChatBot.TitleRetailerFinder, Type = ActionTypes.ImBack, Value = Resources.ChatBot.TitleRetailerFinder });
 
             plCard.Title = textMsg;
             plCard.Buttons = cardButtons;

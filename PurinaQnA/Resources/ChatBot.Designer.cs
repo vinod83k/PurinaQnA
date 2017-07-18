@@ -68,5 +68,41 @@ namespace PurinaQnA.Resources {
                 return ResourceManager.GetString("BotName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello, how can i help you today?.
+        /// </summary>
+        public static string GreetingsMessage {
+            get {
+                return ResourceManager.GetString("GreetingsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FAQ.
+        /// </summary>
+        public static string TitleFaq {
+            get {
+                return ResourceManager.GetString("TitleFaq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retailer Finder.
+        /// </summary>
+        public static string TitleRetailerFinder {
+            get {
+                return ResourceManager.GetString("TitleRetailerFinder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hi! My name is Loren and I&apos;m a Chatbot. I can help you with Animal&apos;s nurition related queries and locate products Retailer. Please select a quick link below or type your question in the space provided..
+        /// </summary>
+        public static string WelcomeMessage {
+            get {
+                return ResourceManager.GetString("WelcomeMessage", resourceCulture);
+            }
+        }
     }
 }
