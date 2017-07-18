@@ -9,7 +9,7 @@ namespace PurinaQnA.Dialogs
         public static Activity GetWelcomeOptionsMessage(Activity activity, string textMsg)
         {
             var reply = activity.CreateReply();
-            reply.From.Name = "Loren";
+            reply.From.Name = Resources.ChatBot.BotName;
             var replyProp = reply.From.Properties;
             reply.Attachments = new List<Attachment>();
 
@@ -32,7 +32,7 @@ namespace PurinaQnA.Dialogs
         {
             //var reply = activity.CreateReply();
             messageActivity.Attachments = new List<Attachment>();
-            messageActivity.From.Name = "Loren";
+            messageActivity.From.Name = Resources.ChatBot.BotName;
             ThumbnailCard plCard = new ThumbnailCard();
             List<CardAction> cardButtons = new List<CardAction>();
 
@@ -51,7 +51,7 @@ namespace PurinaQnA.Dialogs
         public static IMessageActivity GetSimpleTextMessage(IMessageActivity messageActivity, string textMsg)
         {
             messageActivity.Attachments = new List<Attachment>();
-            messageActivity.From.Name = "Loren";
+            messageActivity.From.Name = Resources.ChatBot.BotName;
             AdaptiveCard card = new AdaptiveCard();
             
             card.Body.Add(new TextBlock()
@@ -76,7 +76,7 @@ namespace PurinaQnA.Dialogs
         public static IMessageActivity GetThanksMessage(IMessageActivity messageActivity, string textMsg)
         {
             messageActivity.Attachments = new List<Attachment>();
-            messageActivity.From.Name = "Loren";
+            messageActivity.From.Name = Resources.ChatBot.BotName;
             AdaptiveCard card = new AdaptiveCard();
 
             card.Body.Add(new TextBlock()
@@ -109,7 +109,7 @@ namespace PurinaQnA.Dialogs
         {
             
             messageActivity.Attachments = new List<Attachment>();
-            messageActivity.From.Name = "Loren";
+            messageActivity.From.Name = Resources.ChatBot.BotName;
             AdaptiveCard card = new AdaptiveCard();
 
             card.Body.Add(new TextBlock()

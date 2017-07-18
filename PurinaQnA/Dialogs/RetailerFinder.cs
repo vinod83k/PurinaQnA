@@ -73,7 +73,7 @@ namespace PurinaQnA.Dialogs
 
         private static IMessageActivity CreateRetailerMessage(IDialogContext context, RetailerFinderEntity entity) {
             var messageActivity = context.MakeMessage();
-            messageActivity.From.Name = "Loren";
+            messageActivity.From.Name = Resources.ChatBot.BotName;
             messageActivity.Attachments = new List<Attachment>();
 
             if (entity != null && entity.EntityList.Any()) {

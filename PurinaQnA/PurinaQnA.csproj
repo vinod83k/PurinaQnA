@@ -194,6 +194,11 @@
     <Compile Include="Dialogs\CancelDialog.cs" />
     <Compile Include="PurinaDialogs\RootDialog.cs" />
     <Compile Include="PurinaDialogs\SimpleMessageDialog.cs" />
+    <Compile Include="Resources\ChatBot.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChatBot.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utils\CommonResponseKeywords.cs" />
     <Compile Include="Utils\Enumeration.cs" />
   </ItemGroup>
@@ -213,6 +218,12 @@
       <Project>{abdf486d-cbf1-43a7-9044-ca46b5ab2a88}</Project>
       <Name>Microsoft.Cognitive.LUIS.ActionBinding</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ChatBot.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChatBot.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
