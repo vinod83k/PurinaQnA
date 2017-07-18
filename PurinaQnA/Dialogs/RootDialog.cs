@@ -150,7 +150,7 @@ namespace PurinaQnA.Dialogs
         private static IMessageActivity GetMessage(IDialogContext context, string queryText)
         {
             var messageActivity = context.MakeMessage();
-            messageActivity.From.Name = "Bot";
+            messageActivity.From.Name = "Loren";
             messageActivity.Attachments = new List<Attachment>();
             AdaptiveCard card = new AdaptiveCard();
 

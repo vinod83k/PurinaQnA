@@ -47,7 +47,7 @@ namespace PurinaQnA
                         {
                             IConversationUpdateActivity update = activity;
                             var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
-                            var reply = MessageUtility.GetWelcomeOptionsMessage(activity, "Welcome! I am a ChatBot and can help you with what's best for you animals and Retailer finder. Please click on the below options");
+                            var reply = MessageUtility.GetWelcomeOptionsMessage(activity, "Hi! My name is Loren and I'm a Chatbot. I can help you with Animal's nurition related queries. Please select a quick link below or type your question in the space provided.");
                             await client.Conversations.ReplyToActivityAsync(reply);
                         }
                         Trace.TraceError($"Unknown activity type ignored: {activity.GetActivityType()}");
