@@ -205,6 +205,15 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter ZipCode/City or State name to find Retailers.
+        /// </summary>
+        public static string RetailerFinderRequiredMessage {
+            get {
+                return ResourceManager.GetString("RetailerFinderRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FAQ.
         /// </summary>
         public static string TitleFaq {

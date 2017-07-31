@@ -183,4 +183,7 @@
   <data name="WhatElseHelp" xml:space="preserve">
     <value>Thanks, what else I can help you with.</value>
   </data>
+  <data name="RetailerFinderRequiredMessage" xml:space="preserve">
+    <value>Please enter ZipCode/City or State name to find Retailers</value>
+  </data>
 </root>

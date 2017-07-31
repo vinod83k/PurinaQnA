@@ -20,7 +20,7 @@
     [LuisActionBinding("RetailerFinder")]
     public class RetailerFinderAction : BaseLuisAction
     {
-        [Required(ErrorMessage = "Please enter ZipCode/City or State name to find Retailers")]
+        [Required(ErrorMessageResourceName = "RetailerFinderRequiredMessage", ErrorMessageResourceType = typeof(Resources.ChatBot))]
         public string Location { get; set; }
 
         private const int TakeResultCount = 5;
@@ -77,10 +77,7 @@
         {
             if (await result == true)
             {
-                var validationResults = default(ICollection<ValidationResult>);
-                this.IsValid(out validationResults);
-                await context.PostAsync(validationResults.ElementAt(0).ErrorMessage);
-
+                await context.PostAsync(Resources.ChatBot.RetailerFinderRequiredMessage);
                 context.Wait(MessageReceivedAsync);
             }
             else
