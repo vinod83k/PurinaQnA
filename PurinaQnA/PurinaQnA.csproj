@@ -65,12 +65,12 @@
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Builder.3.8.5.0\lib\net46\Microsoft.Bot.Builder.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder, Version=3.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.3.9.0.0\lib\net46\Microsoft.Bot.Builder.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder.Autofac, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Builder.3.8.5.0\lib\net46\Microsoft.Bot.Builder.Autofac.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder.Autofac, Version=3.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.3.9.0.0\lib\net46\Microsoft.Bot.Builder.Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Bot.Builder.Azure, Version=3.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -85,8 +85,8 @@
       <HintPath>..\packages\Microsoft.Bot.Builder.History.3.0.4\lib\net46\Microsoft.Bot.Builder.History.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Connector, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Builder.3.8.5.0\lib\net46\Microsoft.Bot.Connector.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Connector, Version=3.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.3.9.0.0\lib\net46\Microsoft.Bot.Connector.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -162,17 +162,25 @@
   <ItemGroup>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
+    <Content Include="Images\PurinaChatBot.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\AnimalsAction.cs" />
+    <Compile Include="Actions\ContactUsAction.cs" />
+    <Compile Include="Dialog\ExceptionHandlerDialog.cs" />
+    <Compile Include="Dialog\ContactUsDialog.cs" />
     <Compile Include="Actions\GoodByeAction.cs" />
     <Compile Include="Actions\GreetingsAction.cs" />
     <Compile Include="Actions\NoneAction.cs" />
     <Compile Include="Actions\NotHappyAction.cs" />
+    <Compile Include="Actions\FaqAction.cs" />
     <Compile Include="Actions\RetailerFinderAction.cs" />
+    <Compile Include="Actions\ThanksAction.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\BasicQnAMakerDialog.cs" />
     <Compile Include="Dialogs\CancelScorable.cs" />
@@ -181,19 +189,32 @@
     <Compile Include="Dialogs\CommonResponsesDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Dialogs\PromptButtonsDialog.cs" />
-    <Compile Include="Dialogs\RetailerFinder.cs" />
-    <Compile Include="Dialogs\RetailerFinderDialog.cs" />
+    <Compile Include="Dialogs\RetailerFinderFormDialog.cs" />
     <Compile Include="Dialogs\MessageUtility.cs" />
+    <Compile Include="Dialog\QnADialogWithOverrides.cs" />
+    <Compile Include="Dialog\QnAMakerDialog.cs" />
     <Compile Include="Dialog\RootDialog.cs" />
     <Compile Include="Enumerations\Categories.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalMessageHandlersBotModule.cs" />
+    <Compile Include="Models\ContactUsModel.cs" />
+    <Compile Include="Models\RetailerFinderApiResult.cs" />
+    <Compile Include="Models\RetailerFinderEntity.cs" />
+    <Compile Include="Modules\DefaultExceptionMessageOverrideModule.cs" />
+    <Compile Include="Modules\PostUnhandledExceptionToUserOverrideTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dialogs\CancelDialog.cs" />
     <Compile Include="PurinaDialogs\RootDialog.cs" />
     <Compile Include="PurinaDialogs\SimpleMessageDialog.cs" />
+    <Compile Include="QnaMaker\QnAMakerAttribute.cs" />
+    <Compile Include="QnaMaker\QnAMakerModule.cs" />
+    <Compile Include="QnaMaker\QnAMakerResult.cs" />
+    <Compile Include="QnaMaker\QnAMakerScorable.cs" />
+    <Compile Include="QnaMaker\QnAMakerService.cs" />
+    <Compile Include="QnaMaker\QnAMakerServiceMod.cs" />
+    <Compile Include="QnaMaker\QnAMakerServiceScorable.cs" />
     <Compile Include="Resources\ChatBot.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -222,6 +243,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\ChatBot.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>ChatBot.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
@@ -7,57 +6,97 @@ using Microsoft.Bot.Connector;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using PurinaQnA.Enumerations;
-using PurinaQnA.Utils;
-using PurinaQnA.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using System.Diagnostics;
 using System.Web.Http.Description;
+using PurinaQnA.Dialog;
 
 namespace PurinaQnA
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-
-        internal static IDialog<RetailerFinder> MakeRootDialog()
-        {
-            return Chain.From(() => FormDialog.FromForm(RetailerFinder.BuildForm));
-        }
-
         [ResponseType(typeof(void))]
         public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
         {
+
+            //#region Set CurrentBaseURL
+            //// Get the base URL that this service is running at
+            //// This is used to show images
+            //string CurrentBaseURL =
+            //        this.Url.Request.RequestUri.AbsoluteUri.Replace(@"api/messages", "");
+            //// Create an instance of BotData to store data
+            //BotData objBotData = new BotData();
+            //// Instantiate a StateClient to save BotData            
+            //StateClient stateClient = activity.GetStateClient();
+            //// Use stateClient to get current userData
+            //BotData userData = await stateClient.BotState.GetUserDataAsync(
+            //    activity.ChannelId, activity.From.Id);
+
+            //// Update userData by setting CurrentBaseURL and Recipient
+            //userData.SetProperty<string>("CurrentBaseURL", CurrentBaseURL);
+            //// Save changes to userData
+            //await stateClient.BotState.SetUserDataAsync(
+            //    activity.ChannelId, activity.From.Id, userData);
+            //#endregion
+
+
             if (activity != null)
             {
-                // one of these will have an interface and process it
-                switch (activity.GetActivityType())
-                {
-                    case ActivityTypes.Message:
-                        await Conversation.SendAsync(activity, () => new PurinaDialogs.RootDialog());
-                        //await Conversation.SendAsync(activity, () => new Dialog.RootDialog());
-                        break;
+                IConversationUpdateActivity update = activity;
+                var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
 
-                    case ActivityTypes.ConversationUpdate:
-                    case ActivityTypes.ContactRelationUpdate:
-                    case ActivityTypes.Typing:
-                    case ActivityTypes.DeleteUserData:
-                    default:
-                        if (activity.MembersAdded.Any(x => x.Id == activity.Recipient.Id))
-                        {
-                            IConversationUpdateActivity update = activity;
-                            var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
-                            var reply = MessageUtility.GetWelcomeOptionsMessage(activity, Resources.ChatBot.WelcomeMessage);
-                            await client.Conversations.ReplyToActivityAsync(reply);
-                        }
-                        Trace.TraceError($"Unknown activity type ignored: {activity.GetActivityType()}");
-                        break;
+                try
+                {
+                    activity.Recipient.Name = Resources.ChatBot.BotName;
+
+                    // one of these will have an interface and process it
+                    switch (activity.GetActivityType())
+                    {
+                        case ActivityTypes.Message:
+                            //await Conversation.SendAsync(activity, () => new Dialog.RootDialog());
+                            await Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new RootDialog(), displayException: true));
+                            break;
+
+                        case ActivityTypes.ConversationUpdate:
+                            if (activity.MembersAdded.Any(x => x.Id == activity.Recipient.Id))
+                            {
+                                ThumbnailCard plCard = new ThumbnailCard();
+                                List<CardAction> cardButtons = new List<CardAction>();
+
+                                cardButtons.Add(new CardAction { Title = "FAQ", Type = ActionTypes.ImBack, Value = "FAQ" });
+                                cardButtons.Add(new CardAction { Title = "Retailer Finder", Type = ActionTypes.ImBack, Value = "Retailer Finder" });
+
+                                plCard.Images = new List<CardImage> { new CardImage { Url = string.Format(@"{0}/{1}", this.Url.Request.RequestUri.AbsoluteUri.Replace(@"api/messages", ""), "Images/PurinaChatBot.png") } };
+                                plCard.Text = Resources.ChatBot.WelcomeMessage;
+                                plCard.Buttons = cardButtons;
+
+                                var reply = activity.CreateReply();
+                                reply.Attachments.Add(plCard.ToAttachment());
+
+                                await client.Conversations.ReplyToActivityAsync(reply);
+                            }
+                            break;
+                        case ActivityTypes.ContactRelationUpdate:
+                        case ActivityTypes.Typing:
+                            var typingReply = activity.CreateReply();
+                            typingReply.Text = "Typing...";
+                            await client.Conversations.ReplyToActivityAsync(typingReply);
+                            break;
+                        case ActivityTypes.DeleteUserData:
+                        default:
+                            Trace.TraceError($"Unknown activity type ignored: {activity.GetActivityType()}");
+                            break;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    //var exReply = activity.CreateReply(ex.Message);
+                    //await client.Conversations.ReplyToActivityAsync(exReply);
                 }
             }
-            else
-            {
-                
-            }
+
             return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
         }
 

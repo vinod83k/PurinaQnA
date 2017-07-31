@@ -3,6 +3,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
+using PurinaQnA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace PurinaQnA.Dialogs
 {
     [Serializable]
-    public class RetailerFinder
+    public class RetailerFinderFormDialog
     {
         private const int TakeResultCount = 5;
         public double ResultCount { get; private set; }
@@ -21,9 +22,9 @@ namespace PurinaQnA.Dialogs
         [Prompt("Please enter either ZipCode, City or State")]
         public string Location;
 
-        public static IForm<RetailerFinder> BuildForm()
+        public static IForm<RetailerFinderFormDialog> BuildForm()
         {
-            OnCompletionAsyncDelegate<RetailerFinder> processOrder = async (context, state) =>
+            OnCompletionAsyncDelegate<RetailerFinderFormDialog> processOrder = async (context, state) =>
             {
                 // call service api and get the Retailers
                 var retailers = await GetRetailerFinderApiResponse(state.Location);
@@ -31,13 +32,12 @@ namespace PurinaQnA.Dialogs
                 state.ResultCount = retailers.ResultCount;
                 if (retailers.ResultCount > TakeResultCount)
                 {
-
                     await context.PostAsync(MessageUtility.GetSimpleTextMessage(context.MakeMessage(), $"Here is the list of top {TakeResultCount} nearest locations..."));
                 }
                 await context.PostAsync(messageActivity);
             };
 
-            return new FormBuilder<RetailerFinder>()
+            return new FormBuilder<RetailerFinderFormDialog>()
                 .Field(nameof(Location))
                 .OnCompletion(processOrder)                
                 .Build();
@@ -143,43 +143,44 @@ namespace PurinaQnA.Dialogs
         }
     }
 
-    public class RetailerFinderEntity {
 
-        [JsonProperty(PropertyName = "ENTITY_LIST")]
-        public List<RetailerFinderApiResult> EntityList { get; set; }
+    //public class RetailerFinderEntity {
 
-        [JsonProperty(PropertyName = "RESULT_COUNT")]
-        public double ResultCount { get; set; }
-    }
+    //    [JsonProperty(PropertyName = "ENTITY_LIST")]
+    //    public List<RetailerFinderApiResult> EntityList { get; set; }
 
-    public class RetailerFinderApiResult
-    {
-        [JsonProperty(PropertyName = "NAME")]
-        public string Name { get; set; }
+    //    [JsonProperty(PropertyName = "RESULT_COUNT")]
+    //    public double ResultCount { get; set; }
+    //}
 
-        [JsonProperty(PropertyName = "ADDRESS1")]
-        public string Address1 { get; set; }
+    //public class RetailerFinderApiResult
+    //{
+    //    [JsonProperty(PropertyName = "NAME")]
+    //    public string Name { get; set; }
 
-        [JsonProperty(PropertyName = "ADDRESS2")]
-        public string Address2 { get; set; }
+    //    [JsonProperty(PropertyName = "ADDRESS1")]
+    //    public string Address1 { get; set; }
 
-        [JsonProperty(PropertyName = "CITY")]
-        public string City { get; set; }
+    //    [JsonProperty(PropertyName = "ADDRESS2")]
+    //    public string Address2 { get; set; }
 
-        [JsonProperty(PropertyName = "STATE_PROVINCE")]
-        public string StateProvince { get; set; }
+    //    [JsonProperty(PropertyName = "CITY")]
+    //    public string City { get; set; }
 
-        [JsonProperty(PropertyName = "EMAIL_ADDRESS")]
-        public string EmailAddress { get; set; }
+    //    [JsonProperty(PropertyName = "STATE_PROVINCE")]
+    //    public string StateProvince { get; set; }
 
-        [JsonProperty(PropertyName = "PHONE_NUMBER")]
-        public string PhoneNumber { get; set; }
+    //    [JsonProperty(PropertyName = "EMAIL_ADDRESS")]
+    //    public string EmailAddress { get; set; }
 
-        [JsonProperty(PropertyName = "POSTAL_CODE")]
-        public string PostalCode { get; set; }
+    //    [JsonProperty(PropertyName = "PHONE_NUMBER")]
+    //    public string PhoneNumber { get; set; }
 
-        [JsonProperty(PropertyName = "DISTANCE")]
-        public double Distance { get; set; }
+    //    [JsonProperty(PropertyName = "POSTAL_CODE")]
+    //    public string PostalCode { get; set; }
 
-    }
+    //    [JsonProperty(PropertyName = "DISTANCE")]
+    //    public double Distance { get; set; }
+
+    //}
 }

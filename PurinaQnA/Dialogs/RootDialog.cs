@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
-using PurinaQnA.Utils;
 using PurinaQnA.Enumerations;
-using System.Linq;
 using AdaptiveCards;
 using Microsoft.Bot.Builder.FormFlow;
 using System.Threading;
@@ -30,7 +28,7 @@ namespace PurinaQnA.Dialogs
                 {
                     try
                     {
-                        await context.Forward(Chain.From(() => FormDialog.FromForm(RetailerFinder.BuildForm)), ResumeAfterFormDialog, message, CancellationToken.None);
+                        await context.Forward(Chain.From(() => FormDialog.FromForm(RetailerFinderFormDialog.BuildForm)), ResumeAfterFormDialog, message, CancellationToken.None);
                     }
                     catch (Exception)
                     {
@@ -67,10 +65,10 @@ namespace PurinaQnA.Dialogs
         }
 
         private async Task ResumeAfterFormDialog(IDialogContext context, IAwaitable<object> result) {
-            RetailerFinder msgResult = null;
+            RetailerFinderFormDialog msgResult = null;
             try
             {
-                msgResult = (RetailerFinder)await result;
+                msgResult = (RetailerFinderFormDialog)await result;
             }
             catch (Exception)
             {

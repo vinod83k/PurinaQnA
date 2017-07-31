@@ -1,16 +1,28 @@
 ﻿using AdaptiveCards;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PurinaQnA.Dialogs
 {
     public static class MessageUtility
     {
-        public static Activity GetWelcomeOptionsMessage(Activity activity, string textMsg)
+
+        public static Activity GetWelcomeMessage(IDialogContext context, Activity activity, string strMsg)
+        {
+            string imageUrl;
+            context.UserData.TryGetValue<string>("CurrentBaseURL", out imageUrl);
+            return GetWelcomeOptionsMessage(activity, strMsg, imageUrl);
+        }
+
+
+        public static Activity GetWelcomeOptionsMessage(Activity activity, string textMsg, string imageUrl = "")
         {
             var reply = activity.CreateReply();
-            reply.From.Name = Resources.ChatBot.BotName;
-            var replyProp = reply.From.Properties;
             reply.Attachments = new List<Attachment>();
 
             ThumbnailCard plCard = new ThumbnailCard();
@@ -48,12 +60,29 @@ namespace PurinaQnA.Dialogs
             return messageActivity;
         }
 
+        public static void GetThumbnailCardMessage(IMessageActivity messageActivity, string textMsg, IList<CardAction> buttons)
+        {
+            //var reply = activity.CreateReply();
+            messageActivity.Attachments = new List<Attachment>();
+            ThumbnailCard plCard = new ThumbnailCard();
+
+            //plCard.Title = textMsg;
+            plCard.Text = textMsg;
+            plCard.Buttons = buttons;
+
+
+            Attachment attachmentpl = plCard.ToAttachment();
+
+            messageActivity.Attachments.Add(attachmentpl);
+            //return messageActivity;
+        }
+
         public static IMessageActivity GetSimpleTextMessage(IMessageActivity messageActivity, string textMsg)
         {
             messageActivity.Attachments = new List<Attachment>();
             messageActivity.From.Name = Resources.ChatBot.BotName;
             AdaptiveCard card = new AdaptiveCard();
-            
+
             card.Body.Add(new TextBlock()
             {
                 Text = textMsg,
@@ -61,6 +90,65 @@ namespace PurinaQnA.Dialogs
                 Weight = TextWeight.Normal,
                 Wrap = true
             });
+
+            Attachment attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = card
+            };
+
+            messageActivity.Attachments.Add(attachment);
+
+            return messageActivity;
+        }
+
+        public static IMessageActivity DisplayContactUsAdaptiveCard(IMessageActivity messageActivity, string textMsg)
+        {
+            messageActivity.Attachments = new List<Attachment>();
+
+            AdaptiveCard card = new AdaptiveCard();
+            var inputName = new TextInput {
+                Id = "UserName",
+                Placeholder = "Last, First",
+                IsRequired = true,
+                IsMultiline = false                
+            };
+
+            card.Body.Add(new ColumnSet {
+                Columns = new List<Column> {
+                    new Column {
+                        Items = new List<CardElement> {
+                            new TextBlock { Text = "Your Name", Wrap = true },
+                            inputName
+                        }
+                    }              
+                }                
+            });
+
+            var submitActionData = JsonConvert.SerializeObject(card.Body);
+
+            card.Actions = new List<ActionBase>()
+                {
+                    new SubmitAction()
+                    {
+                        Title = "Search",
+                        Speak = "<s>Search</s>",
+                        DataJson = "{ \"Type\": \"HotelSearch\" }"
+                    }
+                };
+
+        //    card.Actions.Add(new SubmitAction {
+        //        DataJson = submitActionData.ToString(),
+        //        //Data = submitActionData.ToString(),
+        //        Title = "Submit"
+        //});
+
+            //card.Actions.Add(new HttpAction {
+            //    Url = "http://localhost:3979/api/ContactUs",
+            //    Title = "Submit",
+            //    Method = "Post",
+            //    Body = "{ \"username\": \"UserName\" }"
+            //});
 
             Attachment attachment = new Attachment()
             {

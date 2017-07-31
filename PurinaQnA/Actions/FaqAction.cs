@@ -6,12 +6,14 @@
     using System.Threading.Tasks;
 
     [Serializable]
-    [LuisActionBinding("None")]
-    public class NoneAction : BaseLuisContextualAction<AnimalsAction>
+    [LuisActionBinding("FAQ")]
+    //public class FaqAction : BaseLuisContextualAction<AnimalsAction>
+    public class FaqAction : BaseLuisAction
     {
         public override async Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
         {
-            return Task.FromResult((object)"");
+            //await context.PostAsync(Resources.ChatBot.FaqMessage);
+            return Task.FromResult((object)Resources.ChatBot.FaqMessage);
         }
     }
 }

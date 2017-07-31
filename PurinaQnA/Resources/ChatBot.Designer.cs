@@ -61,6 +61,24 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Did you mean:.
+        /// </summary>
+        public static string answerSelectionPrompt {
+            get {
+                return ResourceManager.GetString("answerSelectionPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ask Our Experts.
+        /// </summary>
+        public static string AskOurExperts {
+            get {
+                return ResourceManager.GetString("AskOurExperts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loren.
         /// </summary>
         public static string BotName {
@@ -70,11 +88,119 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contact Us.
+        /// </summary>
+        public static string ContactUs {
+            get {
+                return ResourceManager.GetString("ContactUs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Would you like to get in touch with us, please click on the options below..
+        /// </summary>
+        public static string ContactUsOptionsMsg {
+            get {
+                return ResourceManager.GetString("ContactUsOptionsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you &apos;{0}&apos;. Our experts will soon contact you on your email address: {1}..
+        /// </summary>
+        public static string ContactUsWithDetailsMsg {
+            get {
+                return ResourceManager.GetString("ContactUsWithDetailsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maybe I didn&apos;t understand you properly. Could you please reword your question or type your complete query?.
+        /// </summary>
+        public static string CouldNotUnderstand {
+            get {
+                return ResourceManager.GetString("CouldNotUnderstand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No match found!.
+        /// </summary>
+        public static string defaultMessage {
+            get {
+                return ResourceManager.GetString("defaultMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your Email address.
+        /// </summary>
+        public static string EmailAddressRequiredMessage {
+            get {
+                return ResourceManager.GetString("EmailAddressRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your query in relation to animal&apos;s nutrition.
+        /// </summary>
+        public static string FaqMessage {
+            get {
+                return ResourceManager.GetString("FaqMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to find more Retailers?.
+        /// </summary>
+        public static string FindMoreRetailers {
+            get {
+                return ResourceManager.GetString("FindMoreRetailers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello, how can i help you today?.
         /// </summary>
         public static string GreetingsMessage {
             get {
                 return ResourceManager.GetString("GreetingsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your Name.
+        /// </summary>
+        public static string NameRequiredMessage {
+            get {
+                return ResourceManager.GetString("NameRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sometimes, I may not have the information you need. I am a virtual assistant who can help you with information from the &lt;a href=&apos;https://www.purinamills.com/&apos; target=&apos;_blank&apos;&gt;Purina&apos;s&lt;/a&gt; website. .
+        /// </summary>
+        public static string NoMatchMessage {
+            get {
+                return ResourceManager.GetString("NoMatchMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None of the above..
+        /// </summary>
+        public static string noneOfTheAboveOption {
+            get {
+                return ResourceManager.GetString("noneOfTheAboveOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If I am not able to answer your questions, maybe our Experts will be more helpful..
+        /// </summary>
+        public static string NotHappyMessage {
+            get {
+                return ResourceManager.GetString("NotHappyMessage", resourceCulture);
             }
         }
         
@@ -97,11 +223,38 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry! Not able to match any of the options..
+        /// </summary>
+        public static string tooManyAttempts {
+            get {
+                return ResourceManager.GetString("tooManyAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Here is the list of top {0} nearest Retailers location....
+        /// </summary>
+        public static string TopNearestRetailersLocation {
+            get {
+                return ResourceManager.GetString("TopNearestRetailersLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hi! My name is Loren and I&apos;m a Chatbot. I can help you with Animal&apos;s nurition related queries and locate products Retailer. Please select a quick link below or type your question in the space provided..
         /// </summary>
         public static string WelcomeMessage {
             get {
                 return ResourceManager.GetString("WelcomeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thanks, what else I can help you with..
+        /// </summary>
+        public static string WhatElseHelp {
+            get {
+                return ResourceManager.GetString("WhatElseHelp", resourceCulture);
             }
         }
     }

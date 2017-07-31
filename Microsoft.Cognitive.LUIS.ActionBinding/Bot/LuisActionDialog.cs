@@ -18,12 +18,13 @@
     [Serializable]
     public class LuisActionDialog<TResult> : LuisDialog<TResult>
     {
+        
         private readonly LuisActionResolver actionResolver;
 
         private readonly Action<ILuisAction, object> onContextCreation;
 
         public LuisActionDialog(IEnumerable<Assembly> assemblies, params ILuisService[] services) : this(assemblies, null, services)
-        {
+        {            
         }
 
         public LuisActionDialog(IEnumerable<Assembly> assemblies, Action<ILuisAction, object> onContextCreation, params ILuisService[] services) : base(services)
@@ -103,7 +104,8 @@
 
         protected virtual async Task<object> PerformActionFulfillment(IDialogContext context, IAwaitable<IMessageActivity> item, ILuisAction luisAction)
         {
-            return await luisAction.FulfillAsync();
+            var message = await item;
+            return await luisAction.FulfillAsync(context, message.Text);
         }
 
         protected virtual async Task DispatchToLuisActionActivityHandler(IDialogContext context, IAwaitable<IMessageActivity> item, string intentName, ILuisAction luisAction)
@@ -290,34 +292,42 @@
 
                             await context.PostAsync($"Cannot execute action '{newActionDefinition.FriendlyName}' in the context of '{currentActionDefinition.FriendlyName}' - continuing with current action");
                         }
-                        else if (!this.luisAction.GetType().Equals(result.NewAction.GetType()))
+                        else if (this.luisAction.GetType().Name.Equals("faqaction", StringComparison.CurrentCultureIgnoreCase) &&
+                                result.NewAction.GetType().Name.Equals("animalsaction", StringComparison.CurrentCultureIgnoreCase))
                         {
-                            var newActionDefinition = LuisActionResolver.GetActionDefinition(result.NewAction);
+                            this.intentName = result.NewIntent;
+                            this.luisAction = result.NewAction;
 
-                            var valid = LuisActionResolver.UpdateIfValidContextualAction(result.NewAction, this.luisAction, out isContextual);
-                            if (!valid && isContextual)
-                            {
-                                await context.PostAsync($"Cannot switch to action '{newActionDefinition.FriendlyName}' from '{currentActionDefinition.FriendlyName}' due to invalid context - continuing with current action");
-                            }
-                            else if (currentActionDefinition.ConfirmOnSwitchingContext)
-                            {
-                                // serialize overrun info
-                                this.overrunData = result;
+                            this.luisAction.IsValid(out validationResults);
+                        }
+                        else if (!this.luisAction.GetType().Equals(result.NewAction.GetType()))
+                        {                           
+                            //var newActionDefinition = LuisActionResolver.GetActionDefinition(result.NewAction);
 
-                                PromptDialog.Confirm(
-                                    context,
-                                    this.AfterOverrunCurrentActionSelected,
-                                    $"Do you want to discard the current action '{currentActionDefinition.FriendlyName}' and start executing '{newActionDefinition.FriendlyName}' action?");
+                            //var valid = LuisActionResolver.UpdateIfValidContextualAction(result.NewAction, this.luisAction, out isContextual);
+                            //if (!valid && isContextual)
+                            //{
+                            //    await context.PostAsync($"Cannot switch to action '{newActionDefinition.FriendlyName}' from '{currentActionDefinition.FriendlyName}' due to invalid context - continuing with current action");
+                            //}
+                            //else if (currentActionDefinition.ConfirmOnSwitchingContext)
+                            //{
+                            //    // serialize overrun info
+                            //    this.overrunData = result;
 
-                                return;
-                            }
-                            else
-                            {
+                            //    PromptDialog.Confirm(
+                            //        context,
+                            //        this.AfterOverrunCurrentActionSelected,
+                            //        $"Do you want to discard the current action '{currentActionDefinition.FriendlyName}' and start executing '{newActionDefinition.FriendlyName}' action?");
+
+                            //    return;
+                            //}
+                            //else
+                            //{
                                 this.intentName = result.NewIntent;
                                 this.luisAction = result.NewAction;
 
                                 this.luisAction.IsValid(out validationResults);
-                            }
+                            //}
                         }
                     }
                 }

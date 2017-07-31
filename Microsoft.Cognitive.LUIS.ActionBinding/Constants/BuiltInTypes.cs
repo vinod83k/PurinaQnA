@@ -4,6 +4,8 @@
 
     public static class BuiltInTypes
     {
+        public const string Name = "builtin.name";
+
         public const string Age = "builtin.age";
 
         public const string Dimension = "builtin.dimension";

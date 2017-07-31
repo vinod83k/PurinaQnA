@@ -6,12 +6,12 @@
     using System.Threading.Tasks;
 
     [Serializable]
-    [LuisActionBinding("Greetings")]
-    public class GreetingsAction : BaseLuisAction
+    [LuisActionBinding("Thanks")]
+    public class ThanksAction : BaseLuisAction
     {
         public override Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
         {
-            return Task.FromResult((object)"Well hello there. What can I do for you today?");
+            return Task.FromResult((object)"Sure. Happy to help.");
         }
     }
 }

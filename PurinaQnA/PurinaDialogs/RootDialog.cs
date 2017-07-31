@@ -31,7 +31,7 @@ namespace PurinaQnA.PurinaDialogs
                 {
                     try
                     {
-                        await context.Forward(Chain.From(() => FormDialog.FromForm(RetailerFinder.BuildForm)), ResumeAfterFormDialog, message, CancellationToken.None);
+                        await context.Forward(Chain.From(() => FormDialog.FromForm(RetailerFinderFormDialog.BuildForm)), ResumeAfterFormDialog, message, CancellationToken.None);
                     }
                     catch (Exception)
                     {
@@ -57,10 +57,10 @@ namespace PurinaQnA.PurinaDialogs
 
         private async Task ResumeAfterFormDialog(IDialogContext context, IAwaitable<object> result)
         {
-            RetailerFinder msgResult = null;
+            RetailerFinderFormDialog msgResult = null;
             try
             {
-                msgResult = (RetailerFinder)await result;
+                msgResult = (RetailerFinderFormDialog)await result;
             }
             catch (Exception)
             {

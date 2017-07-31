@@ -1,19 +1,18 @@
-﻿namespace PurinaQnA.Actions
-{
-    using Dialog;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Cognitive.LUIS.ActionBinding;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using Microsoft.Cognitive.LUIS.ActionBinding;
+using System;
+using Microsoft.Bot.Builder.Dialogs;
+using System.Threading.Tasks;
+using System.Threading;
+using PurinaQnA.Dialog;
 
+namespace PurinaQnA.Actions
+{
     [Serializable]
-    [LuisActionBinding("NotHappy")]
-    public class NotHappyAction : BaseLuisAction
+    [LuisActionBinding("ContactUs")]
+    public class ContactUsAction : BaseLuisAction
     {
         public override Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
         {
-            context.PostAsync(Resources.ChatBot.NotHappyMessage);
             context.Forward(new ContactUsDialog(), ResumeAfterContactUsDialog, null, CancellationToken.None);
 
             return Task.FromResult((object)"");
@@ -22,7 +21,8 @@
         private async Task ResumeAfterContactUsDialog(IDialogContext context, IAwaitable<bool> result)
         {
             var isMsgHandled = await result;
-            if (isMsgHandled) {
+            if (isMsgHandled)
+            {
                 context.Done(true);
             }
             else
@@ -32,8 +32,10 @@
             }
         }
 
-        private async Task ResumeAfterRootDialog(IDialogContext context, IAwaitable<object> result) {
+        private async Task ResumeAfterRootDialog(IDialogContext context, IAwaitable<object> result)
+        {
 
         }
+
     }
 }

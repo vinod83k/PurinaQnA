@@ -117,11 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="answerSelectionPrompt" xml:space="preserve">
+    <value>Did you mean:</value>
+  </data>
   <data name="BotName" xml:space="preserve">
     <value>Loren</value>
   </data>
+  <data name="defaultMessage" xml:space="preserve">
+    <value>No match found!</value>
+  </data>
   <data name="GreetingsMessage" xml:space="preserve">
     <value>Hello, how can i help you today?</value>
+  </data>
+  <data name="NoMatchMessage" xml:space="preserve">
+    <value>Sometimes, I may not have the information you need. I am a virtual assistant who can help you with information from the &lt;a href='https://www.purinamills.com/' target='_blank'&gt;Purina's&lt;/a&gt; website. </value>
+  </data>
+  <data name="noneOfTheAboveOption" xml:space="preserve">
+    <value>None of the above.</value>
   </data>
   <data name="TitleFaq" xml:space="preserve">
     <value>FAQ</value>
@@ -129,7 +141,46 @@
   <data name="TitleRetailerFinder" xml:space="preserve">
     <value>Retailer Finder</value>
   </data>
+  <data name="tooManyAttempts" xml:space="preserve">
+    <value>Sorry! Not able to match any of the options.</value>
+  </data>
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Hi! My name is Loren and I'm a Chatbot. I can help you with Animal's nurition related queries and locate products Retailer. Please select a quick link below or type your question in the space provided.</value>
+  </data>
+  <data name="FaqMessage" xml:space="preserve">
+    <value>Please enter your query in relation to animal's nutrition</value>
+  </data>
+  <data name="AskOurExperts" xml:space="preserve">
+    <value>Ask Our Experts</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="ContactUsOptionsMsg" xml:space="preserve">
+    <value>Would you like to get in touch with us, please click on the options below.</value>
+  </data>
+  <data name="ContactUsWithDetailsMsg" xml:space="preserve">
+    <value>Thank you '{0}'. Our experts will soon contact you on your email address: {1}.</value>
+  </data>
+  <data name="CouldNotUnderstand" xml:space="preserve">
+    <value>Maybe I didn't understand you properly. Could you please reword your question or type your complete query?</value>
+  </data>
+  <data name="EmailAddressRequiredMessage" xml:space="preserve">
+    <value>Please enter your Email address</value>
+  </data>
+  <data name="FindMoreRetailers" xml:space="preserve">
+    <value>Do you want to find more Retailers?</value>
+  </data>
+  <data name="NameRequiredMessage" xml:space="preserve">
+    <value>Please enter your Name</value>
+  </data>
+  <data name="NotHappyMessage" xml:space="preserve">
+    <value>If I am not able to answer your questions, maybe our Experts will be more helpful.</value>
+  </data>
+  <data name="TopNearestRetailersLocation" xml:space="preserve">
+    <value>Here is the list of top {0} nearest Retailers location...</value>
+  </data>
+  <data name="WhatElseHelp" xml:space="preserve">
+    <value>Thanks, what else I can help you with.</value>
   </data>
 </root>

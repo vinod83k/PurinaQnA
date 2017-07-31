@@ -14,20 +14,20 @@
         {
             base.Load(builder);
 
-            builder
-                .Register(c => new CommonResponseScorable(c.Resolve<IDialogTask>()))
-                .As<IScorable<IActivity, double>>()
-                .InstancePerLifetimeScope();
+            //builder
+            //    .Register(c => new CommonResponseScorable(c.Resolve<IDialogTask>()))
+            //    .As<IScorable<IActivity, double>>()
+            //    .InstancePerLifetimeScope();
 
-            builder
-                .Register(c => new CancelScorable(c.Resolve<IDialogTask>()))
-                .As<IScorable<IActivity, double>>()
-                .InstancePerLifetimeScope();
+            //builder
+            //    .Register(c => new CancelScorable(c.Resolve<IDialogTask>()))
+            //    .As<IScorable<IActivity, double>>()
+            //    .InstancePerLifetimeScope();
 
-            builder
-                .Register(c => new OptionsScorable(c.Resolve<IDialogTask>()))
-                .As<IScorable<IActivity, double>>()
-                .InstancePerLifetimeScope();
+            //builder
+            //    .Register(c => new OptionsScorable(c.Resolve<IDialogTask>()))
+            //    .As<IScorable<IActivity, double>>()
+            //    .InstancePerLifetimeScope();
         }
     }
 }

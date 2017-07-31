@@ -1,10 +1,14 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Connector;
 using Microsoft.Cognitive.LUIS.ActionBinding.Bot;
 using PurinaQnA.Actions;
+using PurinaQnA.QnAMaker;
 using System;
 using System.Configuration;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PurinaQnA.Dialog
@@ -32,17 +36,62 @@ namespace PurinaQnA.Dialog
                 {
                     //(action as GreetingsAction).Checkin = DateTime.Today;
                     //(action as GreetingsAction).Checkout = DateTime.Today.AddDays(1);
-                }
+                }                
             },
             new LuisService(new LuisModelAttribute(ConfigurationManager.AppSettings["LUIS_ModelId"], ConfigurationManager.AppSettings["LUIS_SubscriptionKey"])))
         {
         }
 
         [LuisIntent("Greetings")]
-        [LuisIntent("None")]
-        [LuisIntent("NotHappy")]
-        [LuisIntent("GoodBye")]
         public async Task GreetingsActionResultHandlerAsync(IDialogContext context, object actionResult)
+        {
+            // we know these actions return a string for their related intents,
+            // although you could have individual handlers for each intent
+            var message = context.MakeMessage();
+
+            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+
+            await context.PostAsync(message);
+        }
+
+        [LuisIntent("NotHappy")]
+        public async Task NotHappyActionResultHandlerAsync(IDialogContext context, object actionResult)
+        {
+            // we know these actions return a string for their related intents,
+            // although you could have individual handlers for each intent
+            var message = context.MakeMessage();
+
+            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+
+            await context.PostAsync(message);
+        }
+
+        [LuisIntent("GoodBye")]
+        public async Task GoodByeActionResultHandlerAsync(IDialogContext context, object actionResult)
+        {
+            // we know these actions return a string for their related intents,
+            // although you could have individual handlers for each intent
+            var message = context.MakeMessage();
+
+            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+
+            await context.PostAsync(message);
+        }
+
+        [LuisIntent("Thanks")]
+        public async Task ThanksActionResultHandlerAsync(IDialogContext context, object actionResult)
+        {
+            // we know these actions return a string for their related intents,
+            // although you could have individual handlers for each intent
+            var message = context.MakeMessage();
+
+            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+
+            await context.PostAsync(message);
+        }
+
+        [LuisIntent("ContactUs")]
+        public async Task ContactUsActionResultHandlerAsync(IDialogContext context, object actionResult)
         {
             // we know these actions return a string for their related intents,
             // although you could have individual handlers for each intent
@@ -56,14 +105,26 @@ namespace PurinaQnA.Dialog
         [LuisIntent("RetailerFinder")]
         public async Task RetailerFinderActionResultHandlerAsync(IDialogContext context, object actionResult)
         {
-            // we know these actions return a string for their related intents,
-            // although you could have individual handlers for each intent
-            var message = context.MakeMessage();
-
-            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
-
-            await context.PostAsync(message);
         }
 
+        [LuisIntent("AnimalsNutrition")]
+        public async Task AnimalsNutritionActionResultHandlerAsync(IDialogContext context, object actionResult)
+        {
+        }
+
+        [LuisIntent("FAQ")]
+        public async Task FaqActionResultHandlerAsync(IDialogContext context, object actionResult)
+        {
+            //var message = context.MakeMessage();
+
+            //message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+
+            await context.PostAsync(Resources.ChatBot.FaqMessage);
+        }
+
+        [LuisIntent("None")]
+        public async Task NoneActionResultHandlerAsync(IDialogContext context, object actionResult)
+        {
+        }
     }
 }

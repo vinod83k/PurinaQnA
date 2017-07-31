@@ -1,5 +1,6 @@
 ﻿namespace Microsoft.Cognitive.LUIS.ActionBinding
 {
+    using Microsoft.Bot.Builder.Dialogs;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@
     [Serializable]
     public abstract class BaseLuisAction : ILuisAction
     {
-        public abstract Task<object> FulfillAsync();
+        public abstract Task<object> FulfillAsync(IDialogContext context = null, string messageText = "");
 
         public virtual bool IsValid(out ICollection<ValidationResult> validationResults)
         {

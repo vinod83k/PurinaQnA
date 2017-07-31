@@ -97,7 +97,7 @@ namespace PurinaQnA.Dialogs
             // Add buttons to the card.
             card.Actions.Add(new OpenUrlAction()
             {
-                Url = "http://tst2.purinamills.com/",
+                Url = "http://tst2.purinamills.com/animal-nutrition-information",
                 Title = "Purina FAQ",
             });
 
