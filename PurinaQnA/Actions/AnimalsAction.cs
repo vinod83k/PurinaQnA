@@ -149,7 +149,6 @@
 
         private async Task ResumeAfterRootDialog(IDialogContext context, IAwaitable<object> result)
         {
-
         }
 
         protected virtual async Task QnAFeedbackStepAsync(IDialogContext context, QnAMakerResults qnaMakerResults)
