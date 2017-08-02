@@ -6,6 +6,8 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using System.Reflection;
 using System.Linq;
 using PurinaQnA.QnAMaker;
+using System.Threading;
+using PurinaQnA.Actions;
 
 namespace PurinaQnA.Dialog
 {
@@ -17,7 +19,7 @@ namespace PurinaQnA.Dialog
     {
         protected readonly IQnAService[] services;
         private QnAMakerResults qnaMakerResults;
-        private FeedbackRecord feedbackRecord;
+        //private FeedbackRecord feedbackRecord;
         private const double QnAMakerHighConfidenceScoreThreshold = 0.99;
         private const double QnAMakerHighConfidenceDeltaThreshold = 0.20;
 
@@ -74,7 +76,7 @@ namespace PurinaQnA.Dialog
                             }
                             else
                             {
-                                feedbackRecord = new FeedbackRecord { UserId = message.From.Id, UserQuestion = message.Text };
+                                //feedbackRecord = new FeedbackRecord { UserId = message.From.Id, UserQuestion = message.Text };
                                 await this.QnAFeedbackStepAsync(context, qnaMakerResults);
                             }
 
@@ -116,29 +118,11 @@ namespace PurinaQnA.Dialog
                     bool match = false;
                     foreach (var qnaMakerResult in qnaMakerResults.Answers)
                     {
-                        if (qnaMakerResult.Questions[0].Equals(selection, StringComparison.OrdinalIgnoreCase))
+                        if (qnaMakerResult.Questions[0].Equals(selection, StringComparison.CurrentCultureIgnoreCase))
                         {
                             await context.PostAsync(qnaMakerResult.Answer);
                             match = true;
-
-                            if (feedbackRecord != null)
-                            {
-                                feedbackRecord.KbQuestion = qnaMakerResult.Questions.First();
-                                feedbackRecord.KbAnswer = qnaMakerResult.Answer;
-
-                                //var tasks =
-                                //    this.services.Select(
-                                //        s =>
-                                //        s.ActiveLearnAsync(
-                                //            feedbackRecord.UserId,
-                                //            feedbackRecord.UserQuestion,
-                                //            feedbackRecord.KbQuestion,
-                                //            feedbackRecord.KbAnswer,
-                                //            qnaMakerResults.ServiceCfg.KnowledgebaseId)).ToArray();
-
-                                //await Task.WhenAll(tasks);
-                                break;
-                            }
+                            break;
                         }
                         else if (Resources.ChatBot.noneOfTheAboveOption.Equals(selection, StringComparison.OrdinalIgnoreCase))
                         {
@@ -147,10 +131,22 @@ namespace PurinaQnA.Dialog
                             break;
                         }
                     }
+                    if (!match)
+                    {
+                        await context.Forward(new RootDialog(), ResumeAfterRootDialog, selection, CancellationToken.None);
+                        context.Done(selection);
+                    }
                 }
             }
-            catch (TooManyAttemptsException) { }
+            catch (TooManyAttemptsException) {
+                await context.Forward(new RootDialog(), ResumeAfterRootDialog, context.Activity.AsMessageActivity(), CancellationToken.None);
+                context.Done("");
+            }
             await this.DefaultWaitNextMessageAsync(context, context.Activity.AsMessageActivity(), qnaMakerResults);
+        }
+
+        private async Task ResumeAfterRootDialog(IDialogContext context, IAwaitable<object> result)
+        {
         }
 
         protected virtual async Task QnAFeedbackStepAsync(IDialogContext context, QnAMakerResults qnaMakerResults)
@@ -165,7 +161,8 @@ namespace PurinaQnA.Dialog
                 options: questions,
                 attempts: 0);
 
-            PromptDialog.Choice(context: context, resume: ResumeAndPostAnswer, promptOptions: promptOptions);
+            QnAMakerPromptChoice.Choice(context, ResumeAndPostAnswer, promptOptions);
+            //PromptDialog.Choice(context: context, resume: ResumeAndPostAnswer, promptOptions: promptOptions);
         }
 
         protected virtual async Task RespondFromQnAMakerResultAsync(IDialogContext context, IMessageActivity message, QnAMakerResults result)

@@ -186,4 +186,16 @@
   <data name="RetailerFinderRequiredMessage" xml:space="preserve">
     <value>Please enter ZipCode/City or State name to find Retailers</value>
   </data>
+  <data name="ContactUsSubTitle" xml:space="preserve">
+    <value>Our expert animal nutritionists and veterinarians are standing by to answer your toughest questions.</value>
+  </data>
+  <data name="Species" xml:space="preserve">
+    <value>Species</value>
+  </data>
+  <data name="WhatIsQuestion" xml:space="preserve">
+    <value>What is your question</value>
+  </data>
+  <data name="WhatYouWouldLikeToKnow" xml:space="preserve">
+    <value>What would you like to know?</value>
+  </data>
 </root>

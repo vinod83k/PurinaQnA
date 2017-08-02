@@ -54,8 +54,23 @@ namespace PurinaQnA
                     switch (activity.GetActivityType())
                     {
                         case ActivityTypes.Message:
-                            //await Conversation.SendAsync(activity, () => new Dialog.RootDialog());
-                            await Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new RootDialog(), displayException: true));
+
+                            var messageHandler = Task.Run(() => Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new RootDialog(), displayException: true)));
+                            messageHandler.Wait();
+                            var replyRunning = activity.CreateReply();
+                            if (messageHandler.Status == TaskStatus.Running) {
+                                replyRunning.Text = "Working...";
+                                await client.Conversations.ReplyToActivityAsync(replyRunning);
+                            }
+                            if (messageHandler.IsCompleted) {
+                                replyRunning.Text = string.Empty;
+                                await client.Conversations.ReplyToActivityAsync(replyRunning);
+                                //var reply = activity.CreateReply();
+                                //reply.Text = "Task Completed";
+                                //await client.Conversations.ReplyToActivityAsync(reply);
+                            }
+
+                            //await Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new RootDialog(), displayException: true));
                             break;
 
                         case ActivityTypes.ConversationUpdate:

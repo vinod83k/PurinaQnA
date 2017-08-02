@@ -170,6 +170,7 @@
   <ItemGroup>
     <Compile Include="Actions\AnimalsAction.cs" />
     <Compile Include="Actions\ContactUsAction.cs" />
+    <Compile Include="Actions\QnAMakerPromptChoice.cs" />
     <Compile Include="Dialog\ExceptionHandlerDialog.cs" />
     <Compile Include="Dialog\ContactUsDialog.cs" />
     <Compile Include="Actions\GoodByeAction.cs" />

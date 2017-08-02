@@ -116,6 +116,37 @@ namespace PurinaQnA.Dialog
             {
                 Body = new List<CardElement>()
                 {
+                        new TextBlock() { Text = Resources.ChatBot.WhatYouWouldLikeToKnow, Wrap = true, Weight = TextWeight.Bolder, Color = TextColor.Accent },
+                        new TextBlock() { Text = Resources.ChatBot.ContactUsSubTitle, Wrap = true },
+                        new TextBlock() { Text = Resources.ChatBot.Species },
+                        new ChoiceSet {
+                            Style = ChoiceInputStyle.Compact,
+                            Id = "Species",
+                            IsRequired = true,
+                            Value="Species",                        
+                            Choices = new List<Choice> {
+                                new Choice { Title = "Horses", Value = "Horses" },
+                                new Choice { Title = "Cattle", Value = "Cattle" },
+                                new Choice { Title = "BackYard Poultry", Value = "BackYard Poultry" },
+                                new Choice { Title = "Dairy", Value = "Dairy" },
+                                new Choice { Title = "Goat", Value = "Goat" },
+                                new Choice { Title = "Swine", Value = "Swine" },
+                                new Choice { Title = "Rabbits", Value = "Rabbits" },
+                                new Choice { Title = "Deer", Value = "Deer" },
+                                new Choice { Title = "Fish & Aquatics", Value = "Fish & Aquatics" },
+                                new Choice { Title = "Show Animals", Value = "Show Animals" },
+                                new Choice { Title = "Birds", Value = "Birds" }
+                            }
+                        },
+                        new TextBlock() { Text = Resources.ChatBot.WhatIsQuestion },
+                        new TextInput()
+                        {
+                            Id = "Question",
+                            Speak = "<s>"+ Resources.ChatBot.WhatIsQuestion +"</s>",
+                            Style = TextInputStyle.Text,
+                            IsMultiline = true,
+                            IsRequired = true
+                        },
                         new TextBlock() { Text = Resources.ChatBot.NameRequiredMessage },
                         new TextInput()
                         {

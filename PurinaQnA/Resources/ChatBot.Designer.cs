@@ -106,6 +106,15 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Our expert animal nutritionists and veterinarians are standing by to answer your toughest questions..
+        /// </summary>
+        public static string ContactUsSubTitle {
+            get {
+                return ResourceManager.GetString("ContactUsSubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thank you &apos;{0}&apos;. Our experts will soon contact you on your email address: {1}..
         /// </summary>
         public static string ContactUsWithDetailsMsg {
@@ -214,6 +223,15 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Species.
+        /// </summary>
+        public static string Species {
+            get {
+                return ResourceManager.GetString("Species", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FAQ.
         /// </summary>
         public static string TitleFaq {
@@ -264,6 +282,24 @@ namespace PurinaQnA.Resources {
         public static string WhatElseHelp {
             get {
                 return ResourceManager.GetString("WhatElseHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What is your question.
+        /// </summary>
+        public static string WhatIsQuestion {
+            get {
+                return ResourceManager.GetString("WhatIsQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What would you like to know?.
+        /// </summary>
+        public static string WhatYouWouldLikeToKnow {
+            get {
+                return ResourceManager.GetString("WhatYouWouldLikeToKnow", resourceCulture);
             }
         }
     }
