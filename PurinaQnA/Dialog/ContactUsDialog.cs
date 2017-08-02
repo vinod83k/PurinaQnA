@@ -91,7 +91,8 @@ namespace PurinaQnA.Dialog
                                             {
                                                 Text = Resources.ChatBot.ContactUsOptionsMsg,
                                                 Weight = TextWeight.Normal,
-                                                Size = TextSize.Medium,
+                                                Size = TextSize.Small,
+                                                Color = TextColor.Dark,
                                                 Wrap = true,
                                                 IsSubtle = true
                                             }
