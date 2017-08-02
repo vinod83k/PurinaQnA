@@ -93,13 +93,6 @@ namespace PurinaQnA.Dialog
         [LuisIntent("ContactUs")]
         public async Task ContactUsActionResultHandlerAsync(IDialogContext context, object actionResult)
         {
-            // we know these actions return a string for their related intents,
-            // although you could have individual handlers for each intent
-            //var message = context.MakeMessage();
-
-            //message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
-
-            //await context.PostAsync(message);
         }
 
         [LuisIntent("RetailerFinder")]

@@ -6,6 +6,8 @@ using Microsoft.Bot.Connector;
 using AdaptiveCards;
 using System.Threading;
 using PurinaQnA.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace PurinaQnA.Dialog
 {
@@ -29,10 +31,29 @@ namespace PurinaQnA.Dialog
                     string submitType = value.Type.ToString();
                     if (submitType.Equals("ContactUs", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        var model = ContactUsModel.Parse(value);
-                        if (model != null)
+                        try
                         {
-                            responseMsg = string.Format(Resources.ChatBot.ContactUsWithDetailsMsg, model.Name, model.EmailAddress);
+                            var model = ContactUsModel.Parse(value);
+                            if (model != null)
+                            {
+                                // Trigger validation using Data Annotations attributes from the HotelsQuery model
+                                List<ValidationResult> results = new List<ValidationResult>();
+                                bool valid = Validator.TryValidateObject(model, new ValidationContext(model, null, null), results, true);
+                                if (!valid)
+                                {
+                                    // Some field in the Hotel Query are not valid
+                                    var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+                                    await context.PostAsync("Please provide the values, so that our expert can contact you:\n" + errors);
+                                    return;
+                                }
+
+                                responseMsg = string.Format(Resources.ChatBot.ContactUsWithDetailsMsg, model.Name, model.EmailAddress);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            await context.PostAsync("Please provide the values, so that our expert can contact you");
+                            return;
                         }
                     }
 

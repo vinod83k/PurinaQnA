@@ -1,12 +1,17 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PurinaQnA.Models
 {
     public class ContactUsModel
     {
+        [Required]
         public string Species { get; set; }
+        [Required]
         public string Question { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string EmailAddress { get; set; }
 
         public static ContactUsModel Parse(dynamic o)
