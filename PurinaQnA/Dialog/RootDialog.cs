@@ -95,11 +95,11 @@ namespace PurinaQnA.Dialog
         {
             // we know these actions return a string for their related intents,
             // although you could have individual handlers for each intent
-            var message = context.MakeMessage();
+            //var message = context.MakeMessage();
 
-            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+            //message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
 
-            await context.PostAsync(message);
+            //await context.PostAsync(message);
         }
 
         [LuisIntent("RetailerFinder")]
