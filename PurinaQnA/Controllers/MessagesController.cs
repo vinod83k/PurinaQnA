@@ -43,11 +43,11 @@ namespace PurinaQnA
 
             if (activity != null)
             {
-                IConversationUpdateActivity update = activity;
-                var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
 
                 try
                 {
+                    IConversationUpdateActivity update = activity;
+                    var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
                     activity.Recipient.Name = Resources.ChatBot.BotName;
 
                     // one of these will have an interface and process it
@@ -55,19 +55,19 @@ namespace PurinaQnA
                     {
                         case ActivityTypes.Message:
 
-                            var messageHandler = Task.Run(() => Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new RootDialog(), displayException: true)));
-                            messageHandler.Wait();
-                            var replyRunning = activity.CreateReply();
-                            if (messageHandler.Status == TaskStatus.Running) {
-                            }
-                            if (messageHandler.IsCompleted) {
-                                await client.Conversations.ReplyToActivityAsync(replyRunning);
-                                //var reply = activity.CreateReply();
-                                //reply.Text = "Task Completed";
-                                //await client.Conversations.ReplyToActivityAsync(reply);
-                            }
+                            //var messageHandler = Task.Run(() => Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new RootDialog(), displayException: true)));
+                            //messageHandler.Wait();
+                            //var replyRunning = activity.CreateReply();
+                            //if (messageHandler.Status == TaskStatus.Running) {
+                            //}
+                            //if (messageHandler.IsCompleted) {
+                            //    await client.Conversations.ReplyToActivityAsync(replyRunning);
+                            //    //var reply = activity.CreateReply();
+                            //    //reply.Text = "Task Completed";
+                            //    //await client.Conversations.ReplyToActivityAsync(reply);
+                            //}
 
-                            //await Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new RootDialog(), displayException: true));
+                            await Conversation.SendAsync(activity, () => new ExceptionHandlerDialog<object>(new RootDialog(), displayException: false));
                             break;
 
                         case ActivityTypes.ConversationUpdate:
@@ -91,10 +91,10 @@ namespace PurinaQnA
                             break;
                         case ActivityTypes.ContactRelationUpdate:
                         case ActivityTypes.Typing:
-                            var typingReply = activity.CreateReply();
-                            typingReply.Text = "Typing...";
-                            await client.Conversations.ReplyToActivityAsync(typingReply);
-                            break;
+                            //var typingReply = activity.CreateReply();
+                            //typingReply.Text = "Typing...";
+                            //await client.Conversations.ReplyToActivityAsync(typingReply);
+                            //break;
                         case ActivityTypes.DeleteUserData:
                         default:
                             Trace.TraceError($"Unknown activity type ignored: {activity.GetActivityType()}");
