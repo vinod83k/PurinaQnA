@@ -59,11 +59,8 @@ namespace PurinaQnA
                             messageHandler.Wait();
                             var replyRunning = activity.CreateReply();
                             if (messageHandler.Status == TaskStatus.Running) {
-                                replyRunning.Text = "Working...";
-                                await client.Conversations.ReplyToActivityAsync(replyRunning);
                             }
                             if (messageHandler.IsCompleted) {
-                                replyRunning.Text = string.Empty;
                                 await client.Conversations.ReplyToActivityAsync(replyRunning);
                                 //var reply = activity.CreateReply();
                                 //reply.Text = "Task Completed";
