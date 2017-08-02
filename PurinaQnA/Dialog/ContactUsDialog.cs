@@ -71,38 +71,18 @@ namespace PurinaQnA.Dialog
         {
             AdaptiveCard card = new AdaptiveCard()
             {
-                Body = new List<CardElement>()
-                {
-                    new Container()
-                    {
-                        Speak = "<s>" + Resources.ChatBot.ContactUsOptionsMsg + "</s>",
-                        Items = new List<CardElement>()
-                        {
-                            new ColumnSet()
-                            {
-                                Columns = new List<Column>()
-                                {
-                                    new Column()
-                                    {
-                                        Size = ColumnSize.Stretch,
-                                        Items = new List<CardElement>()
-                                        {
-                                            new TextBlock()
-                                            {
-                                                Text = Resources.ChatBot.ContactUsOptionsMsg,
-                                                Weight = TextWeight.Normal,
-                                                Size = TextSize.Small,
-                                                Color = TextColor.Dark,
-                                                Wrap = true,
-                                                IsSubtle = true
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+                //Body = new List<CardElement>()
+                //{
+                //    new TextBlock()
+                //    {
+                //        Text = Resources.ChatBot.ContactUsOptionsMsg,
+                //        Weight = TextWeight.Normal,
+                //        Size = TextSize.Small,
+                //        Color = TextColor.Dark,
+                //        Wrap = true,
+                //        IsSubtle = true
+                //    }
+                //},
                 // Buttons
                 Actions = new List<ActionBase>() {
                     new ShowCardAction()
@@ -128,6 +108,7 @@ namespace PurinaQnA.Dialog
             var reply = context.MakeMessage();
             reply.Attachments.Add(attachment);
 
+            await context.PostAsync(Resources.ChatBot.ContactUsOptionsMsg);
             await context.PostAsync(reply, CancellationToken.None);
 
         }
