@@ -11,9 +11,9 @@ namespace PurinaQnA.Actions
     [LuisActionBinding("ContactUs")]
     public class ContactUsAction : BaseLuisAction
     {
-        public override Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
+        public override async Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
         {
-            context.Forward(new ContactUsDialog(), ResumeAfterContactUsDialog, null, CancellationToken.None);
+            await context.Forward(new ContactUsDialog(), ResumeAfterContactUsDialog, null, CancellationToken.None);
 
             return Task.FromResult((object)"");
         }
