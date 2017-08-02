@@ -11,10 +11,10 @@
     [LuisActionBinding("NotHappy")]
     public class NotHappyAction : BaseLuisAction
     {
-        public override Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
+        public override async Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
         {
-            context.PostAsync(Resources.ChatBot.NotHappyMessage);
-            context.Forward(new ContactUsDialog(), ResumeAfterContactUsDialog, null, CancellationToken.None);
+            await context.PostAsync(Resources.ChatBot.NotHappyMessage);
+            await context.Forward(new ContactUsDialog(), ResumeAfterContactUsDialog, null, CancellationToken.None);
 
             return Task.FromResult((object)"");
         }
