@@ -189,6 +189,9 @@
   <data name="ContactUsSubTitle" xml:space="preserve">
     <value>Our expert animal nutritionists and veterinarians are standing by to answer your toughest questions.</value>
   </data>
+  <data name="GreetingsActionMessage" xml:space="preserve">
+    <value>Well hello there. What can I do for you today?</value>
+  </data>
   <data name="Species" xml:space="preserve">
     <value>Species</value>
   </data>

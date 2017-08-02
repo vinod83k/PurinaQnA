@@ -169,6 +169,15 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Well hello there. What can I do for you today?.
+        /// </summary>
+        public static string GreetingsActionMessage {
+            get {
+                return ResourceManager.GetString("GreetingsActionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello, how can i help you today?.
         /// </summary>
         public static string GreetingsMessage {

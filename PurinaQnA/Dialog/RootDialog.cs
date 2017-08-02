@@ -51,7 +51,10 @@ namespace PurinaQnA.Dialog
 
             message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
 
-            await context.PostAsync(message);
+            if (!string.IsNullOrEmpty(message.Text))
+            {
+                await context.PostAsync(message);
+            }
         }
 
         [LuisIntent("NotHappy")]
@@ -62,8 +65,9 @@ namespace PurinaQnA.Dialog
             var message = context.MakeMessage();
 
             message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
-
-            await context.PostAsync(message);
+            if (!string.IsNullOrEmpty(message.Text)) {
+                await context.PostAsync(message);
+            }
         }
 
         [LuisIntent("GoodBye")]
@@ -75,7 +79,10 @@ namespace PurinaQnA.Dialog
 
             message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
 
-            await context.PostAsync(message);
+            if (!string.IsNullOrEmpty(message.Text))
+            {
+                await context.PostAsync(message);
+            }
         }
 
         [LuisIntent("Thanks")]
@@ -87,7 +94,10 @@ namespace PurinaQnA.Dialog
 
             message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
 
-            await context.PostAsync(message);
+            if (!string.IsNullOrEmpty(message.Text))
+            {
+                await context.PostAsync(message);
+            }
         }
 
         [LuisIntent("ContactUs")]
