@@ -10,36 +10,55 @@ using Microsoft.Bot.Builder.FormFlow;
 using System.Diagnostics;
 using System.Web.Http.Description;
 using PurinaQnA.Dialog;
+using System.Web;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace PurinaQnA
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        private async Task GetUserLocation(Activity activity)
+        {
+            String UserIP = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(UserIP))
+            {
+                //UserIP = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                UserIP = "";
+            }
+            string url = "http://freegeoip.net/json/" + UserIP.ToString();
+            WebClient webClient = new WebClient();
+            string jsonstring = webClient.DownloadString(url);
+            dynamic dynObj = JsonConvert.DeserializeObject(jsonstring);
+            string userzipCode = dynObj.zip_code;
+            if (!string.IsNullOrEmpty(userzipCode))
+            {
+                //#region Set CurrentBaseURL
+                //// Get the base URL that this service is running at
+                //// This is used to show images
+                //string CurrentBaseURL =
+                //        this.Url.Request.RequestUri.AbsoluteUri.Replace(@"api/messages", "");
+                //// Create an instance of BotData to store data
+                BotData objBotData = new BotData();
+                // Instantiate a StateClient to save BotData            
+                StateClient stateClient = activity.GetStateClient();
+                // Use stateClient to get current userData
+                BotData userData = await stateClient.BotState.GetUserDataAsync(
+                    activity.ChannelId, activity.From.Id);
+
+                // Update userData by setting CurrentBaseURL and Recipient
+                userData.SetProperty<string>("UserZipCode", userzipCode);
+                // Save changes to userData
+                await stateClient.BotState.SetUserDataAsync(
+                    activity.ChannelId, activity.From.Id, userData);
+                //#endregion
+            }
+        }
+
         [ResponseType(typeof(void))]
         public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
         {
-
-            //#region Set CurrentBaseURL
-            //// Get the base URL that this service is running at
-            //// This is used to show images
-            //string CurrentBaseURL =
-            //        this.Url.Request.RequestUri.AbsoluteUri.Replace(@"api/messages", "");
-            //// Create an instance of BotData to store data
-            //BotData objBotData = new BotData();
-            //// Instantiate a StateClient to save BotData            
-            //StateClient stateClient = activity.GetStateClient();
-            //// Use stateClient to get current userData
-            //BotData userData = await stateClient.BotState.GetUserDataAsync(
-            //    activity.ChannelId, activity.From.Id);
-
-            //// Update userData by setting CurrentBaseURL and Recipient
-            //userData.SetProperty<string>("CurrentBaseURL", CurrentBaseURL);
-            //// Save changes to userData
-            //await stateClient.BotState.SetUserDataAsync(
-            //    activity.ChannelId, activity.From.Id, userData);
-            //#endregion
-
 
             if (activity != null)
             {
@@ -87,6 +106,7 @@ namespace PurinaQnA
                                 reply.Attachments.Add(plCard.ToAttachment());
 
                                 await client.Conversations.ReplyToActivityAsync(reply);
+                                await GetUserLocation(activity);
                             }
                             break;
                         case ActivityTypes.ContactRelationUpdate:

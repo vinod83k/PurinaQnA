@@ -88,6 +88,15 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot resolve your query.
+        /// </summary>
+        public static string CannotResolveQuery {
+            get {
+                return ResourceManager.GetString("CannotResolveQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact Us.
         /// </summary>
         public static string ContactUs {
@@ -115,11 +124,29 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please provide the values, so that our expert can contact you.
+        /// </summary>
+        public static string ContactUsValidationTitle {
+            get {
+                return ResourceManager.GetString("ContactUsValidationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thank you &apos;{0}&apos;. Our experts will soon contact you on your email address: {1}..
         /// </summary>
         public static string ContactUsWithDetailsMsg {
             get {
                 return ResourceManager.GetString("ContactUsWithDetailsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find Retailers near to your location..
+        /// </summary>
+        public static string CouldNotFindRetailers {
+            get {
+                return ResourceManager.GetString("CouldNotFindRetailers", resourceCulture);
             }
         }
         
@@ -165,6 +192,15 @@ namespace PurinaQnA.Resources {
         public static string FindMoreRetailers {
             get {
                 return ResourceManager.GetString("FindMoreRetailers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Would you like to find Retailers for any other location?.
+        /// </summary>
+        public static string FindRetailersForOtherLocation {
+            get {
+                return ResourceManager.GetString("FindRetailersForOtherLocation", resourceCulture);
             }
         }
         

@@ -49,7 +49,7 @@ namespace PurinaQnA.Dialog
             // although you could have individual handlers for each intent
             var message = context.MakeMessage();
 
-            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
 
             if (!string.IsNullOrEmpty(message.Text))
             {
@@ -64,7 +64,7 @@ namespace PurinaQnA.Dialog
             // although you could have individual handlers for each intent
             var message = context.MakeMessage();
 
-            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
             if (!string.IsNullOrEmpty(message.Text)) {
                 await context.PostAsync(message);
             }
@@ -77,7 +77,7 @@ namespace PurinaQnA.Dialog
             // although you could have individual handlers for each intent
             var message = context.MakeMessage();
 
-            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
 
             if (!string.IsNullOrEmpty(message.Text))
             {
@@ -92,7 +92,7 @@ namespace PurinaQnA.Dialog
             // although you could have individual handlers for each intent
             var message = context.MakeMessage();
 
-            message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
+            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
 
             if (!string.IsNullOrEmpty(message.Text))
             {

@@ -3,7 +3,6 @@
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Cognitive.LUIS.ActionBinding;
     using System;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
@@ -20,34 +19,54 @@
     [LuisActionBinding("RetailerFinder")]
     public class RetailerFinderAction : BaseLuisAction
     {
-        [Required(ErrorMessageResourceName = "RetailerFinderRequiredMessage", ErrorMessageResourceType = typeof(Resources.ChatBot))]
-        public string Location { get; set; }
-
         private const int TakeResultCount = 5;
 
-        public override async Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
-        {
+        private async Task FindRetailers(IDialogContext context, string location) {
             // call service api and get the Retailers
             try
             {
-                var retailers = await this.GetRetailerFinderApiResponse(this.Location);
+                var retailers = await this.GetRetailerFinderApiResponse(location);
                 var messageActivity = this.CreateRetailerMessage(context, retailers);
 
-                if (retailers.ResultCount > TakeResultCount)
-                {
-                    await context.PostAsync(string.Format(Resources.ChatBot.TopNearestRetailersLocation, TakeResultCount));
-                }
-                await context.PostAsync(messageActivity);
+                if (retailers.ResultCount > 0) {
+                    if (retailers.ResultCount > TakeResultCount)
+                    {
+                        await context.PostAsync(string.Format(Resources.ChatBot.TopNearestRetailersLocation, TakeResultCount));
+                    }
+                    await context.PostAsync(messageActivity);
 
-                PromptDialog.Confirm(
-                    context,
-                    this.AfterRetailersFinderConfirmDialog,
-                    Resources.ChatBot.FindMoreRetailers);
+                    PromptDialog.Confirm(
+                        context,
+                        this.AfterRetailersFinderConfirmDialog,
+                        Resources.ChatBot.FindMoreRetailers);
+                }
+                else
+                {
+                    await context.PostAsync(Resources.ChatBot.CouldNotFindRetailers);
+                    PromptDialog.Confirm(
+                        context,
+                        this.AfterRetailersFinderConfirmDialog,
+                        Resources.ChatBot.FindRetailersForOtherLocation);
+                }
             }
             catch (Exception)
             {
                 await context.Forward(new RootDialog(), ResumeAfterRootDialog, context.Activity.AsMessageActivity(), CancellationToken.None);
                 context.Done(true);
+            }
+        }
+
+        public override async Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
+        {
+            string userZipCode;
+            context.UserData.TryGetValue<string>("UserZipCode", out userZipCode);
+            if (!string.IsNullOrEmpty(userZipCode)) {
+                await FindRetailers(context, userZipCode);
+            }
+            else
+            {
+                await context.PostAsync(Resources.ChatBot.RetailerFinderRequiredMessage);
+                context.Wait(MessageReceivedAsync);
             }
 
             return Task.FromResult((object)"");
@@ -61,8 +80,8 @@
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result) {
             var message = await result;
             if (message != null) {
-                this.Location = message.Text;
-                await this.FulfillAsync(context);
+
+                await FindRetailers(context, message.Text);
             }
             else
             {

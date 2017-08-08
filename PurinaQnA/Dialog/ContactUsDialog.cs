@@ -36,14 +36,14 @@ namespace PurinaQnA.Dialog
                             var model = ContactUsModel.Parse(value);
                             if (model != null)
                             {
-                                // Trigger validation using Data Annotations attributes from the HotelsQuery model
+                                // Trigger validation using Data Annotations attributes from the ContactUs model
                                 List<ValidationResult> results = new List<ValidationResult>();
                                 bool valid = Validator.TryValidateObject(model, new ValidationContext(model, null, null), results, true);
                                 if (!valid)
                                 {
-                                    // Some field in the Hotel Query are not valid
+                                    // Some field in the ContactUs details are not valid
                                     var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                                    await context.PostAsync("Please provide the values, so that our expert can contact you:\n" + errors);
+                                    await context.PostAsync($"{Resources.ChatBot.ContactUsValidationTitle}:\n" + errors);
                                     return;
                                 }
 
@@ -52,7 +52,7 @@ namespace PurinaQnA.Dialog
                         }
                         catch (Exception)
                         {
-                            await context.PostAsync("Please provide the values, so that our expert can contact you");
+                            await context.PostAsync(Resources.ChatBot.ContactUsValidationTitle);
                             return;
                         }
                     }
