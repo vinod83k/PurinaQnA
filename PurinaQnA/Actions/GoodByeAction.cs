@@ -11,7 +11,7 @@
     {
         public override Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
         {
-            return Task.FromResult((object)"Bye. Looking forward to our next awesome conversation already.");
+            return Task.FromResult((object)"");
         }
     }
 }

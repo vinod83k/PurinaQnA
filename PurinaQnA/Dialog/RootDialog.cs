@@ -47,14 +47,7 @@ namespace PurinaQnA.Dialog
         {
             // we know these actions return a string for their related intents,
             // although you could have individual handlers for each intent
-            var message = context.MakeMessage();
-
-            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
-
-            if (!string.IsNullOrEmpty(message.Text))
-            {
-                await context.PostAsync(message);
-            }
+            await context.PostAsync(Resources.ChatBot.GreetingsActionMessage);
         }
 
         [LuisIntent("AboutLoren")]
@@ -62,14 +55,7 @@ namespace PurinaQnA.Dialog
         {
             // we know these actions return a string for their related intents,
             // although you could have individual handlers for each intent
-            var message = context.MakeMessage();
-
-            message.Text = Resources.ChatBot.AboutMe;
-
-            if (!string.IsNullOrEmpty(message.Text))
-            {
-                await context.PostAsync(message);
-            }
+            await context.PostAsync(Resources.ChatBot.AboutMe);
         }
 
         [LuisIntent("NotHappy")]
@@ -77,12 +63,7 @@ namespace PurinaQnA.Dialog
         {
             // we know these actions return a string for their related intents,
             // although you could have individual handlers for each intent
-            var message = context.MakeMessage();
-
-            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
-            if (!string.IsNullOrEmpty(message.Text)) {
-                await context.PostAsync(message);
-            }
+            //await context.PostAsync(Resources.ChatBot.NotHappyMessage);
         }
 
         [LuisIntent("GoodBye")]
@@ -90,14 +71,7 @@ namespace PurinaQnA.Dialog
         {
             // we know these actions return a string for their related intents,
             // although you could have individual handlers for each intent
-            var message = context.MakeMessage();
-
-            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
-
-            if (!string.IsNullOrEmpty(message.Text))
-            {
-                await context.PostAsync(message);
-            }
+            await context.PostAsync(Resources.ChatBot.GoodByeMessage);
         }
 
         [LuisIntent("Thanks")]
@@ -105,14 +79,7 @@ namespace PurinaQnA.Dialog
         {
             // we know these actions return a string for their related intents,
             // although you could have individual handlers for each intent
-            var message = context.MakeMessage();
-
-            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
-
-            if (!string.IsNullOrEmpty(message.Text))
-            {
-                await context.PostAsync(message);
-            }
+            await context.PostAsync(Resources.ChatBot.ThanksMessage);
         }
 
         [LuisIntent("ContactUs")]
@@ -133,10 +100,6 @@ namespace PurinaQnA.Dialog
         [LuisIntent("FAQ")]
         public async Task FaqActionResultHandlerAsync(IDialogContext context, object actionResult)
         {
-            //var message = context.MakeMessage();
-
-            //message.Text = actionResult != null ? actionResult.ToString() : "Cannot resolve your query";
-
             await context.PostAsync(Resources.ChatBot.FaqMessage);
         }
 

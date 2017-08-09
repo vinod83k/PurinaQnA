@@ -216,4 +216,10 @@
   <data name="FindRetailersForOtherLocation" xml:space="preserve">
     <value>Would you like to find Retailers for any other location?</value>
   </data>
+  <data name="GoodByeMessage" xml:space="preserve">
+    <value>Bye. Looking forward to our next awesome conversation already.</value>
+  </data>
+  <data name="ThanksMessage" xml:space="preserve">
+    <value>Sure. Happy to help.</value>
+  </data>
 </root>

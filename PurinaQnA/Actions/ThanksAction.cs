@@ -12,7 +12,7 @@
         public override Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
         {
             
-            return Task.FromResult((object)"Sure. Happy to help.");
+            return Task.FromResult((object)"");
         }
     }
 }
