@@ -201,6 +201,9 @@
   <data name="WhatYouWouldLikeToKnow" xml:space="preserve">
     <value>What would you like to know?</value>
   </data>
+  <data name="AboutMe" xml:space="preserve">
+    <value>Hi! My name is Loren and I'm a Chatbot. I can help you with Animal's nurition related queries and locate products Retailer.</value>
+  </data>
   <data name="CannotResolveQuery" xml:space="preserve">
     <value>Cannot resolve your query</value>
   </data>

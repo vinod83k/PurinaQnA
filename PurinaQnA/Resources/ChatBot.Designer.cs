@@ -61,6 +61,15 @@ namespace PurinaQnA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hi! My name is Loren and I&apos;m a Chatbot. I can help you with Animal&apos;s nurition related queries and locate products Retailer..
+        /// </summary>
+        public static string AboutMe {
+            get {
+                return ResourceManager.GetString("AboutMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Did you mean:.
         /// </summary>
         public static string answerSelectionPrompt {

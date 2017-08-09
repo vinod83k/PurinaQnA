@@ -57,6 +57,21 @@ namespace PurinaQnA.Dialog
             }
         }
 
+        [LuisIntent("AboutLoren")]
+        public async Task AboutMeActionResultHandlerAsync(IDialogContext context, object actionResult)
+        {
+            // we know these actions return a string for their related intents,
+            // although you could have individual handlers for each intent
+            var message = context.MakeMessage();
+
+            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
+
+            if (!string.IsNullOrEmpty(message.Text))
+            {
+                await context.PostAsync(message);
+            }
+        }
+
         [LuisIntent("NotHappy")]
         public async Task NotHappyActionResultHandlerAsync(IDialogContext context, object actionResult)
         {

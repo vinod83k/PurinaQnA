@@ -168,6 +168,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\AboutMeAction.cs" />
     <Compile Include="Actions\AnimalsAction.cs" />
     <Compile Include="Actions\ContactUsAction.cs" />
     <Compile Include="Actions\QnAMakerPromptChoice.cs" />
