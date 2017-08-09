@@ -64,7 +64,7 @@ namespace PurinaQnA.Dialog
             // although you could have individual handlers for each intent
             var message = context.MakeMessage();
 
-            message.Text = actionResult != null ? actionResult.ToString() : Resources.ChatBot.CannotResolveQuery;
+            message.Text = Resources.ChatBot.AboutMe;
 
             if (!string.IsNullOrEmpty(message.Text))
             {

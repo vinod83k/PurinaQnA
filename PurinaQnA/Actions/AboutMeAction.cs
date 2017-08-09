@@ -11,7 +11,7 @@
     {
         public override async Task<object> FulfillAsync(IDialogContext context = null, string messageText = "")
         {
-            return Task.FromResult((object)Resources.ChatBot.FaqMessage);
+            return Task.FromResult((object)"");
         }
     }
 }
