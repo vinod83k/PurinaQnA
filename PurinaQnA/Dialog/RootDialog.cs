@@ -1,14 +1,10 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Connector;
 using Microsoft.Cognitive.LUIS.ActionBinding.Bot;
 using PurinaQnA.Actions;
-using PurinaQnA.QnAMaker;
 using System;
 using System.Configuration;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace PurinaQnA.Dialog
