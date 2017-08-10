@@ -21,7 +21,12 @@
     {
         private const int TakeResultCount = 5;
 
-        private async Task FindRetailers(IDialogContext context, string location) {
+        private enum FindRetailerFor {
+            UserLocation,
+            CustomLocation
+        }
+
+        private async Task FindRetailers(IDialogContext context, string location, FindRetailerFor findRetailerFor) {
             // call service api and get the Retailers
             try
             {
@@ -42,11 +47,20 @@
                 }
                 else
                 {
-                    await context.PostAsync(Resources.ChatBot.CouldNotFindRetailers);
-                    PromptDialog.Confirm(
-                        context,
-                        this.AfterRetailersFinderConfirmDialog,
-                        Resources.ChatBot.FindRetailersForOtherLocation);
+                    // Could not find retailers for the User's location, So, instead of sending message the no location found. Prompt user to enter her location.
+                    if (findRetailerFor == FindRetailerFor.UserLocation) {
+                        await context.PostAsync(Resources.ChatBot.RetailerFinderRequiredMessage);
+                        context.Wait(MessageReceivedAsync);
+                    }
+                    else
+                    {
+                        // Could not find retailers for the Custom location,
+                        await context.PostAsync(Resources.ChatBot.CouldNotFindRetailers);
+                        PromptDialog.Confirm(
+                            context,
+                            this.AfterRetailersFinderConfirmDialog,
+                            Resources.ChatBot.FindRetailersForOtherLocation);
+                    }
                 }
             }
             catch (Exception)
@@ -61,7 +75,7 @@
             string userZipCode;
             context.UserData.TryGetValue<string>("UserZipCode", out userZipCode);
             if (!string.IsNullOrEmpty(userZipCode)) {
-                await FindRetailers(context, userZipCode);
+                await FindRetailers(context, userZipCode, FindRetailerFor.UserLocation);
             }
             else
             {
@@ -81,7 +95,7 @@
             var message = await result;
             if (message != null) {
 
-                await FindRetailers(context, message.Text);
+                await FindRetailers(context, message.Text, FindRetailerFor.CustomLocation);
             }
             else
             {
