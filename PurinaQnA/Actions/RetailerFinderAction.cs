@@ -103,6 +103,7 @@
             {
                 await context.PostAsync(Resources.ChatBot.WhatElseHelp);
                 await context.Forward(new ContactUsDialog(), ResumeAfterContactUsDialog, null, CancellationToken.None);
+                context.Done(true);
             }
         }
 
